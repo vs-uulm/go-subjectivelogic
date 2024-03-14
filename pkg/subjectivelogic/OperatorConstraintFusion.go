@@ -12,21 +12,15 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-package sllib
+package subjectivelogic
 
 import (
 	"errors"
 )
 
-func Comultiplication(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("Comultiplication: Input cannot be nil.")
-	}
-	if opinion1.baseRate == 1 && opinion2.baseRate == 1 {
-		return nil, errors.New("Comultiplication: Invalid arguments: opinion1.baseRate = opinion2.baseRate = 1.")
-	}
-	if opinion1.baseRate == 0 && opinion2.baseRate == 0 {
-		return nil, errors.New("Comultiplication: Invalid arguments: opinion1.baseRate = opinion2.baseRate = 0.")
+		return nil, errors.New("ConstraintFusion: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief
@@ -39,10 +33,25 @@ func Comultiplication(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	u2 := opinion2.uncertainty
 	a2 := opinion2.baseRate
 
-	b := b1 + b2 - b1*b2
-	d := d1*d2 + (a1*(1-a2)*d1*u2+(1-a1)*a2*u1*d2)/(a1+a2-a1*a2)
-	u := u1*u2 + (a2*d1*u2+a1*u1*d2)/(a1+a2-a1*a2)
-	a := a1 + a2 - a1*a2
+	con := b1*d2 + d1*b2
+
+	if con == 1 {
+		return nil, errors.New("ConstraintFusion: Invalid arguments: Con = 1.")
+	}
+
+	har1 := b1*u2 + b2*u1 + b1*b2
+	har2 := d1*u2 + d2*u1 + d1*d2
+
+	b := har1 / (1 - con)
+	d := har2 / (1 - con)
+	u := u1 * u2 / (1 - con)
+
+	a := -1.0
+	if u1 == 1 && u2 == 1 {
+		a = (a1 + a2) / 2
+	} else {
+		a = (a1*(1-u1) + a2*(1-u2)) / (2 - u1 - u2)
+	}
 
 	return NewOpinion(b, d, u, a)
 }

@@ -12,15 +12,15 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-package sllib
+package subjectivelogic
 
 import (
 	"errors"
 )
 
-func WeightedFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("WeightedFusion: Input cannot be nil.")
+		return nil, errors.New("CumulativeFusion: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief
@@ -37,24 +37,22 @@ func WeightedFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	d := -1.0
 	u := -1.0
 	a := -1.0
-	if u1 == 1 && u2 == 1 {
-		b = 0
-		d = 0
-		u = 1
-		a = (a1 + a2) / 2
+	if u1 == 0 && u2 == 0 {
+		b = 0.5 * (b1 + b2)
+		d = 0.5 * (d1 + d2)
+		u = 0
+		a = 0.5 * (a1 + a2)
 
 	} else {
-		if u1 == 0 && u2 == 0 {
-			b = 0.5 * (b1 + b2)
-			d = 0.5 * (d1 + d2)
-			u = 0
-			a = 0.5 * (a1 + a2)
+		b = (b1*u2 + b2*u1) / (u1 + u2 - u1*u2)
+		d = (d1*u2 + d2*u1) / (u1 + u2 - u1*u2)
+		u = u1 * u2 / (u1 + u2 - u1*u2)
+
+		if u1 == 1 && u2 == 1 {
+			a = (a1 + a2) / 2
 
 		} else {
-			b = (b1*(1-u1)*u2 + b2*(1-u2)*u1) / (u1 + u2 - 2*u1*u2)
-			d = (d1*(1-u1)*u2 + d2*(1-u2)*u1) / (u1 + u2 - 2*u1*u2)
-			u = (2 - u1 - u2) * u1 * u2 / (u1 + u2 - 2*u1*u2)
-			a = (a1*(1-u1) + a2*(1-u2)) / (2 - u1 - u2)
+			a = (a1*u2 + a2*u1 - (a1+a2)*u1*u2) / (u1 + u2 - 2*u1*u2)
 		}
 	}
 

@@ -12,16 +12,15 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-package sllib
+package subjectivelogic
 
 import (
 	"errors"
-	"math"
 )
 
-func Addition(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func AveragingFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("Addition: Input cannot be nil.")
+		return nil, errors.New("AveragingFusion: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief
@@ -38,45 +37,18 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	d := -1.0
 	u := -1.0
 	a := -1.0
-	if a1 == 0 && a2 == 0 {
-		b = b1 + b2
-		d = ((d1 - b2) + (d2 - b1)) / 2
-		u = (u1 + u2) / 2
-		a = 0
+	if u1 == 0 && u2 == 0 {
+		b = 0.5 * (b1 + b2)
+		d = 0.5 * (d1 + d2)
+		u = 0
+		a = 0.5 * (a1 + a2)
 
 	} else {
-		b = b1 + b2
-		d = (a1*(d1-b2) + a2*(d2-b1)) / (a1 + a2)
-		u = (a1*u1 + a2*u2) / (a1 + a2)
-		a = a1 + a2
+		b = (b1*u2 + b2*u1) / (u1 + u2)
+		d = (d1*u2 + d2*u1) / (u1 + u2)
+		u = 2 * u1 * u2 / (u1 + u2)
+		a = (a1 + a2) / 2
 	}
 
-	o, err := NewOpinion(b, d, u, a)
-
-	if err != nil {
-		if b > 1 {
-			o, _ = NewOpinion(1, 0, 0, math.Min(a, 1))
-			err = errors.New("Value b exceeded 1")
-		} else {
-
-			p := (b + u*a)
-			if p > 1 {
-				o, _ = NewOpinion(b, 0, 1-b, 1)
-				err = errors.New("Value p exceeded 1")
-			} else {
-
-				if a > 1 {
-					o, _ = NewOpinion(b, 1-p, p-b, 1)
-					err = errors.New("Value a exceeded 1")
-				} else {
-
-					if d < 0 {
-						o, _ = NewOpinion(b, 0, u+d, a*u/(u+d))
-						err = errors.New("Adjustment of disbelief")
-					}
-				}
-			}
-		}
-	}
-	return o, err
+	return NewOpinion(b, d, u, a)
 }

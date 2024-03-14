@@ -12,13 +12,13 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-package sllib
+package subjectivelogic
 
 import (
 	"testing"
 )
 
-func TestAveragingFusion(t *testing.T) {
+func TestWeightedFusion(t *testing.T) {
 	type args struct {
 		opinion1 *Opinion
 		opinion2 *Opinion
@@ -30,70 +30,77 @@ func TestAveragingFusion(t *testing.T) {
 		wantErr bool
 	}{
 		//nil input
-		{"TestAveragingFusion1",
+		{"TestWeightedFusion1",
 			args{nil, nil},
 			nil,
 			true,
 		},
-		{"TestAveragingFusion",
+		{"TestWeightedFusion2",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
 			nil,
 			true,
 		},
-		{"TestAveragingFusion3",
+		{"TestWeightedFusion3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
 			nil,
 			true,
 		},
 
 		//u1 = u2 = 0
-		{"TestAveragingFusion4",
+		{"TestWeightedFusion4",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
 			&Opinion{0.5, 0.5, 0, 0.5},
 			false,
 		},
 
+		//u1 = u2 = 1
+		{"TestWeightedFusion5",
+			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0, 0, 1, 0.5}},
+			&Opinion{0, 0, 1, 0.5},
+			false,
+		},
+
 		//general tests
-		{"TestAveragingFusion5",
+		{"TestWeightedFusion6",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
 			&Opinion{1, 0, 0, 0.5},
 			false,
 		},
-		{"TestAveragingFusion6",
+		{"TestWeightedFusion7",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
 			&Opinion{0, 1, 0, 0.5},
 			false,
 		},
-		{"TestAveragingFusion7",
+		{"TestWeightedFusion8",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0, 1, 0, 0.25},
+			&Opinion{0, 1, 0, 0.2631578947368},
 			false,
 		},
-		{"TestAveragingFusion8",
+		{"TestWeightedFusion9",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.545454545454545, 0.272727272727272, 0.181818181818181, 0.25},
+			&Opinion{0.6, 0.3, 0.1, 0},
 			false,
 		},
-		{"TestAveragingFusion9",
+		{"TestWeightedFusion10",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.4743209876543, 0.3750617283951, 0.1506172839506, 0.2},
+			&Opinion{0.497164244186, 0.3614186046512, 0.1414171511628, 0.1742946708464},
 			false,
 		},
-		{"TestAveragingFusion10",
+		{"TestWeightedFusion11",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.3353339416058, 0.3941733576642, 0.2704927007299, 0.7},
+			&Opinion{0.3445420741927, 0.3862656902719, 0.2691922355354, 0.7128099173554},
 			false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := AveragingFusion(tt.args.opinion1, tt.args.opinion2)
+			got, err := WeightedFusion(tt.args.opinion1, tt.args.opinion2)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("AveragingFusion() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("WeightedFusion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !got.Compare(tt.want) {
-				t.Errorf("AveragingFusion() got = %v, want %v", got, tt.want)
+				t.Errorf("WeightedFusion() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

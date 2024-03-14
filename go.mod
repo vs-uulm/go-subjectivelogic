@@ -1,3 +1,3 @@
-module SL_GO_Library
+module gitlab-vs.informatik.uni-ulm.de/connect/go-subjectivelogic
 
-go 1.20
+go 1.22

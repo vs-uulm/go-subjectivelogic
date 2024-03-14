@@ -1,6 +1,8 @@
-# 2024 Subjective Logic Library
+# go-subjectivelogic
 
-This Library provides an [Opinion](#opinion) struct as well as an array of Subjective Logic Operators:
+## Overview
+
+This Go library implements subjective logic functionalities. It therefore provides an [Opinion](#opinion) struct as well as a set of Subjective Logic Operators:
 
 * [Addition](#addition)
 * [Complement](#complement)

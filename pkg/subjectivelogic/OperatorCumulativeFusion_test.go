@@ -12,25 +12,13 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-package sllib
+package subjectivelogic
 
 import (
 	"testing"
 )
 
-var testOpinionsComult = []*Opinion{
-	//valid Opinions
-	{1, 0, 0, 0.5},
-	{0, 1, 0, 0.5},
-	{0, 0, 1, 0.5},
-	{0.6, 0.3, 0.1, 0},
-	{0.091, 0.604, 0.305, 0.4},
-	{0.53, 0.227, 0.243, 1.000},
-	{0.004, 0.5950000001, 0.4009999999, 0.00000000004334},
-	{0, 0.999999999999999, 0.000000000000001, 0.5000000000000000000000000000000000000003},
-	{0.000473, 0.555506, 0.444021, 0}}
-
-func TestComultiplication(t *testing.T) {
+func TestCumulativeFusion(t *testing.T) {
 	type args struct {
 		opinion1 *Opinion
 		opinion2 *Opinion
@@ -42,80 +30,77 @@ func TestComultiplication(t *testing.T) {
 		wantErr bool
 	}{
 		//nil input
-		{"TestComumtiplication1",
+		{"TestCumulativeFusion1",
 			args{nil, nil},
 			nil,
 			true,
 		},
-		{"TestComumtiplication2",
+		{"TestCumulativeFusion2",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
 			nil,
 			true,
 		},
-		{"TestComumtiplication3",
+		{"TestCumulativeFusion3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
 			nil,
 			true,
 		},
 
-		//general tests
-		{"TestComumtiplication4",
-			args{&Opinion{0.6, 0.3, 0.1, 0},
-				&Opinion{0.000473, 0.555506, 0.444021, 0}},
-			nil,
-			true,
-		},
-		{"TestComumtiplication5",
-			args{&Opinion{0.53, 0.227, 0.243, 1.000},
-				&Opinion{0.53, 0.227, 0.243, 1.000}},
-			nil,
-			true,
-		},
-		{"TestComumtiplication6",
+		//u1 = u2 = 0
+		{"TestCumulativeFusion4",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
-			&Opinion{1, 0, 0, 0.75},
+			&Opinion{0.5, 0.5, 0, 0.5},
 			false,
 		},
-		{"TestComumtiplication7",
+
+		//u1 = u2 = 1
+		{"TestCumulativeFusion5",
+			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0, 0, 1, 0.5}},
+			&Opinion{0, 0, 1, 0.5},
+			false,
+		},
+
+		//general tests
+		{"TestCumulativeFusion6",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{1, 0, 0, 0.75},
+			&Opinion{1, 0, 0, 0.5},
 			false,
 		},
-		{"TestComumtiplication8",
+		{"TestCumulativeFusion7",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 0.333333333333333, 0.666666666666666, 0.75},
+			&Opinion{0, 1, 0, 0.5},
 			false,
 		},
-		{"TestComumtiplication9",
+		{"TestCumulativeFusion8",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.6, 0.4, 0, 0.5},
+			&Opinion{0, 1, 0, 0.5},
 			false,
 		},
-		{"TestComumtiplication10",
+		{"TestCumulativeFusion9",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.6, 0, 0.4, 0.5},
+			&Opinion{0.6, 0.3, 0.1, 0},
 			false,
 		},
-		{"TestComumtiplication11",
+		{"TestCumulativeFusion10",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.6364, 0.2416, 0.122, 0.4},
+			&Opinion{0.5129506008011, 0.4056074766355, 0.08144192256342, 0.08081395348837},
 			false,
 		},
-		{"TestComumtiplication12",
+		{"TestCumulativeFusion11",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.57277, 0.178649, 0.248581, 1},
+			&Opinion{0.3877797355899, 0.4558215600831, 0.156398704327, 0.7465267528829},
 			false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := Comultiplication(tt.args.opinion1, tt.args.opinion2)
+			got, err := CumulativeFusion(tt.args.opinion1, tt.args.opinion2)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Comultiplication() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("CumulativeFusion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !got.Compare(tt.want) {
-				t.Errorf("Comultiplication() got = %v, want %v", got, tt.want)
+				t.Errorf("CumulativeFusion() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
