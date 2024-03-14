@@ -1,4 +1,4 @@
-# 2024 MA Project Nuernberger - SL Go Library
+# 2024 Subjective Logic Library
 
 This Library provides an [Opinion](#opinion) struct as well as an array of Subjective Logic Operators:
 
