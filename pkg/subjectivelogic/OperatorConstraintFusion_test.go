@@ -105,3 +105,7 @@ func TestConstraintFusion(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkConstraintFusion(b *testing.B) {
+	bmBinarySlFunc(ConstraintFusion, b)
+}

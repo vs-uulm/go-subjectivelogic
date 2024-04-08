@@ -128,3 +128,7 @@ func TestMultiplication(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkMultiplication(b *testing.B) {
+	bmBinarySlFunc(Multiplication, b)
+}

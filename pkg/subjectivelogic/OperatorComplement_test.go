@@ -95,3 +95,18 @@ func TestComplement(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkComplement(b *testing.B) {
+	opinion1, err := NewOpinion(1, 0, 0, 0)
+	if err != nil {
+		b.Error(err)
+	}
+	b.ResetTimer()
+	for range b.N {
+		x, err := Complement(opinion1)
+		if err != nil {
+			b.Error(err)
+		}
+		sink = x
+	}
+}

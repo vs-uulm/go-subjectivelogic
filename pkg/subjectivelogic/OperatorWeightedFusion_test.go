@@ -105,3 +105,7 @@ func TestWeightedFusion(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkWeightedFusion(b *testing.B) {
+	bmBinarySlFunc(WeightedFusion, b)
+}

@@ -71,3 +71,7 @@ func TestAddition(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkAddition(b *testing.B) {
+	bmBinarySlFunc(Addition, b)
+}

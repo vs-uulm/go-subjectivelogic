@@ -98,3 +98,7 @@ func TestAveragingFusion(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkAveragingFusion(b *testing.B) {
+	bmBinarySlFunc(AveragingFusion, b)
+}

@@ -352,3 +352,37 @@ func TestOpinion_ToString(t *testing.T) {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)
 	}
 }
+
+var sink *Opinion
+
+// Should do no allocation
+func BenchmarkNewOpinion(b *testing.B) {
+	for range b.N {
+		var err error
+		x, err := NewOpinion(1, 0, 0, 0)
+		if err != nil {
+			b.Error(err)
+		}
+		sink = x
+	}
+}
+
+func bmBinarySlFunc(f func(*Opinion, *Opinion) (*Opinion, error), b *testing.B) {
+	opinion1, err := NewOpinion(0.5, 0.5, 0, 0.2)
+	if err != nil {
+		b.Error(err)
+	}
+	opinion2, err := NewOpinion(0.1, 0.9, 0, 0.1)
+	if err != nil {
+		b.Error(err)
+	}
+	b.ResetTimer()
+	for range b.N {
+		x, err := f(opinion1, opinion2)
+		if err != nil {
+			b.Error(err)
+		}
+		sink = x
+	}
+
+}

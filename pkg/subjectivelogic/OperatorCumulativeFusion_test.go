@@ -105,3 +105,7 @@ func TestCumulativeFusion(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkCumulativeFusion(b *testing.B) {
+	bmBinarySlFunc(CumulativeFusion, b)
+}

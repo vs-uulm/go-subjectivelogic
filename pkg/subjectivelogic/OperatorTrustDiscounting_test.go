@@ -230,3 +230,7 @@ func TestMultiEdgeTrustDisc(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkTrustDiscounting(b *testing.B) {
+	bmBinarySlFunc(TrustDiscounting, b)
+}

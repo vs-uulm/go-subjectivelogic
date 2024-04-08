@@ -120,3 +120,7 @@ func TestComultiplication(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkComultiplication(b *testing.B) {
+	bmBinarySlFunc(Comultiplication, b)
+}
