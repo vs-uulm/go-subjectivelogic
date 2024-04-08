@@ -18,9 +18,9 @@ import (
 	"errors"
 )
 
-func AveragingFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func AveragingFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("AveragingFusion: Input cannot be nil.")
+		return Opinion{}, errors.New("AveragingFusion: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief

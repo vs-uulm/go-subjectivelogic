@@ -353,7 +353,7 @@ func TestOpinion_ToString(t *testing.T) {
 	}
 }
 
-var sink *Opinion
+var sink Opinion
 
 // Should do no allocation
 func BenchmarkNewOpinion(b *testing.B) {
@@ -367,7 +367,7 @@ func BenchmarkNewOpinion(b *testing.B) {
 	}
 }
 
-func bmBinarySlFunc(f func(*Opinion, *Opinion) (*Opinion, error), b *testing.B) {
+func bmBinarySlFunc(f func(*Opinion, *Opinion) (Opinion, error), b *testing.B) {
 	opinion1, err := NewOpinion(0.5, 0.5, 0, 0.2)
 	if err != nil {
 		b.Error(err)
@@ -378,7 +378,7 @@ func bmBinarySlFunc(f func(*Opinion, *Opinion) (*Opinion, error), b *testing.B) 
 	}
 	b.ResetTimer()
 	for range b.N {
-		x, err := f(opinion1, opinion2)
+		x, err := f(&opinion1, &opinion2)
 		if err != nil {
 			b.Error(err)
 		}

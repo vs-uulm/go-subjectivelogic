@@ -43,12 +43,12 @@ In case a valid Opinion can be formed, it will be returned and the error will be
 If the input Values violate the requirements for a valid Opinion, the *Opinion will be nil and an error will be returned.
 For a valid Opinion, all input values i must fulfill 0 <= i <= 1 and for the first tree inputs b, d, u, the statement b+d+u = 1 must hold.
 */
-func NewOpinion(belief, disbelief, uncertainty, baseRate float64) (*Opinion, error) {
+func NewOpinion(belief, disbelief, uncertainty, baseRate float64) (Opinion, error) {
 	if checkInput(belief, disbelief, uncertainty, baseRate) == false {
-		return nil, errors.New("NewOpinion: Invalid Input")
+		return Opinion{}, errors.New("NewOpinion: Invalid Input")
 	}
 	op := Opinion{belief: belief, disbelief: disbelief, uncertainty: uncertainty, baseRate: baseRate}
-	return &op, nil
+	return op, nil
 }
 
 /*

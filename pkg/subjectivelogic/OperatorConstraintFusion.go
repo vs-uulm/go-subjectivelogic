@@ -18,9 +18,9 @@ import (
 	"errors"
 )
 
-func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("ConstraintFusion: Input cannot be nil.")
+		return Opinion{}, errors.New("ConstraintFusion: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief
@@ -36,7 +36,7 @@ func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	con := b1*d2 + d1*b2
 
 	if con == 1 {
-		return nil, errors.New("ConstraintFusion: Invalid arguments: Con = 1.")
+		return Opinion{}, errors.New("ConstraintFusion: Invalid arguments: Con = 1.")
 	}
 
 	har1 := b1*u2 + b2*u1 + b1*b2

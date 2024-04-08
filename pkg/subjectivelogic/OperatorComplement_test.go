@@ -103,7 +103,7 @@ func BenchmarkComplement(b *testing.B) {
 	}
 	b.ResetTimer()
 	for range b.N {
-		x, err := Complement(opinion1)
+		x, err := Complement(&opinion1)
 		if err != nil {
 			b.Error(err)
 		}
