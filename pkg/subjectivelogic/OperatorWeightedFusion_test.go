@@ -99,7 +99,7 @@ func TestWeightedFusion(t *testing.T) {
 				t.Errorf("WeightedFusion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.Compare(tt.want) {
+			if !got.ComparePtr(tt.want) {
 				t.Errorf("WeightedFusion() got = %v, want %v", got, tt.want)
 			}
 		})

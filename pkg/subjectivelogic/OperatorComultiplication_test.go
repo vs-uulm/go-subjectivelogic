@@ -114,7 +114,7 @@ func TestComultiplication(t *testing.T) {
 				t.Errorf("Comultiplication() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.Compare(tt.want) {
+			if !got.ComparePtr(tt.want) {
 				t.Errorf("Comultiplication() got = %v, want %v", got, tt.want)
 			}
 		})

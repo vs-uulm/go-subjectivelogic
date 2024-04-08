@@ -117,8 +117,10 @@ func (opinion *Opinion) ProjProb() float64 {
 Compare is called onto an *Opinion o1 and compares it with the input *Opinion o2.
 If either, o1 and o2 are nil, or the values of o1 and o2 each match with a maximum difference of Precision, true is returned.
 Otherwise, false is returned.
+TODO Deprecate and Remove this method OR prove that it is indeed a good choice to have a pointer receiver and pointer parameter on a
+comparison method.
 */
-func (opinion1 *Opinion) Compare(opinion2 *Opinion) bool {
+func (opinion1 *Opinion) ComparePtr(opinion2 *Opinion) bool {
 	if opinion1 == nil && opinion2 == nil {
 		return true
 	}
@@ -131,6 +133,15 @@ func (opinion1 *Opinion) Compare(opinion2 *Opinion) bool {
 	}
 
 	return false
+}
+
+/*
+Compare is called onto an Opinion o1 and compares it with the Opinion o2.
+If the values of o1 and o2 each match with a maximum difference of Precision, true is returned.
+Otherwise, false is returned.
+*/
+func (opinion1 Opinion) Compare(opinion2 Opinion) bool {
+	return opinion1.ComparePtr(&opinion2)
 }
 
 /*

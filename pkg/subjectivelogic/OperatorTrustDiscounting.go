@@ -41,7 +41,7 @@ func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	return NewOpinion(b, d, u, a)
 }
 
-func MultiEdgeTrustDisc(opinions []*Opinion) (Opinion, error) {
+func MultiEdgeTrustDisc(opinions []Opinion) (Opinion, error) {
 
 	if opinions == nil {
 		return Opinion{}, errors.New("MultiEdgeTrustDisc: Input cannot be nil.")
@@ -53,15 +53,9 @@ func MultiEdgeTrustDisc(opinions []*Opinion) (Opinion, error) {
 
 	pAcc := 1.0
 	for i := 0; i < (n - 1); i++ {
-		if opinions[i] == nil {
-			return Opinion{}, errors.New("MultiEdgeTrustDisc: List cannot contain nil.")
-		}
 		pAcc *= opinions[i].ProjProb()
 	}
 
-	if opinions[n-1] == nil {
-		return Opinion{}, errors.New("MultiEdgeTrustDisc: List cannot contain nil.")
-	}
 	funcTrust := opinions[n-1]
 	b := pAcc * funcTrust.belief
 	d := pAcc * funcTrust.disbelief

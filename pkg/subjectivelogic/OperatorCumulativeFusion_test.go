@@ -99,7 +99,7 @@ func TestCumulativeFusion(t *testing.T) {
 				t.Errorf("CumulativeFusion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.Compare(tt.want) {
+			if !got.ComparePtr(tt.want) {
 				t.Errorf("CumulativeFusion() got = %v, want %v", got, tt.want)
 			}
 		})

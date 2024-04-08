@@ -99,7 +99,7 @@ func TestConstraintFusion(t *testing.T) {
 				t.Errorf("ConstraintFusion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.Compare(tt.want) {
+			if !got.ComparePtr(tt.want) {
 				t.Errorf("ConstraintFusion() got = %v, want %v", got, tt.want)
 			}
 		})

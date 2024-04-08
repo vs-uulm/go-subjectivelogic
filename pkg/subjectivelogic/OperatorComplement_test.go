@@ -89,7 +89,7 @@ func TestComplement(t *testing.T) {
 				t.Errorf("Complement() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.Compare(tt.want) {
+			if !got.ComparePtr(tt.want) {
 				t.Errorf("Complement() got = %v, want %v", got, tt.want)
 			}
 		})

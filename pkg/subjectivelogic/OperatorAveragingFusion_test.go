@@ -92,7 +92,7 @@ func TestAveragingFusion(t *testing.T) {
 				t.Errorf("AveragingFusion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.Compare(tt.want) {
+			if !got.ComparePtr(tt.want) {
 				t.Errorf("AveragingFusion() got = %v, want %v", got, tt.want)
 			}
 		})

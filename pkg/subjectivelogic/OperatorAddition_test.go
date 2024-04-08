@@ -65,7 +65,7 @@ func TestAddition(t *testing.T) {
 				t.Errorf("Addition() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.Compare(tt.want) {
+			if !got.ComparePtr(tt.want) {
 				t.Errorf("Addition() got = %v, want %v", got, tt.want)
 			}
 		})

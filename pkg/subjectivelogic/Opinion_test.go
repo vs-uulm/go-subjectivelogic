@@ -193,7 +193,7 @@ func TestOpinion_Modify(t *testing.T) {
 
 		if i < nrOfValidOpinions {
 			expected := &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-			if !o.Compare(expected) {
+			if !o.ComparePtr(expected) {
 				t.Errorf("Invalid output on i = %d | Output: %f, %f, %f, %f | Expected %f, %f, %f, %f", i,
 					o.belief, o.disbelief, o.uncertainty, o.baseRate, testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3])
 			} else {
@@ -237,18 +237,18 @@ func TestOpinion_ProjProb(t *testing.T) {
 	}
 }
 
-func TestOpinion_Compare(t *testing.T) {
+func TestOpinion_ComparePtr(t *testing.T) {
 
 	var o1, o2 *Opinion
-	if !o1.Compare(o2) {
+	if !o1.ComparePtr(o2) {
 		t.Errorf("Incorrect output: Output: %t, Expected: %t | Opinion1: \"nil\" | Opinion2 \"nil\" ", true, false)
 	}
 
 	o1 = &Opinion{1, 0, 0, 1}
-	if o1.Compare(o2) {
+	if o1.ComparePtr(o2) {
 		t.Errorf("Incorrect output: Output: %t, Expected: %t | Opinion1: 1, 0, 0, 1 | Opinion2 \"nil\" ", false, true)
 	}
-	if o2.Compare(o1) {
+	if o2.ComparePtr(o1) {
 		t.Errorf("Incorrect output: Output: %t, Expected: %t | Opinion1: \"nil\" | Opinion2 1, 0, 0, 1 ", false, true)
 	}
 
@@ -264,11 +264,11 @@ func TestOpinion_Compare(t *testing.T) {
 
 			o1 = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
 			o2 = &Opinion{testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3]}
-			passed1 := o1.Compare(o2)
-			passed2 := o2.Compare(o1)
+			passed1 := o1.ComparePtr(o2)
+			passed2 := o2.ComparePtr(o1)
 
 			if passed1 != passed2 {
-				t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.Compare(o2) = %t, o2.Compare(o1) = %t", i, j,
+				t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.ComparePtr(o2) = %t, o2.ComparePtr(o1) = %t", i, j,
 					testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3],
 					testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3], passed1, passed2)
 			} else {
@@ -286,11 +286,11 @@ func TestOpinion_Compare(t *testing.T) {
 	j := 8
 	o1 = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
 	o2 = &Opinion{testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3]}
-	passed1 := o1.Compare(o2)
-	passed2 := o2.Compare(o1)
+	passed1 := o1.ComparePtr(o2)
+	passed2 := o2.ComparePtr(o1)
 
 	if passed1 != passed2 {
-		t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.Compare(o2) = %t, o2.Compare(o1) = %t", i, j,
+		t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.ComparePtr(o2) = %t, o2.ComparePtr(o1) = %t", i, j,
 			testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3],
 			testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3], passed1, passed2)
 	} else {
