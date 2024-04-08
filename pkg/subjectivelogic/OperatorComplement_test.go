@@ -25,60 +25,60 @@ func TestComplement(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestComplement1",
 			args{nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//general tests
 		{"TestComplement2",
 			args{&Opinion{1, 0, 0, 0.5}},
-			&Opinion{0, 1, 0, 0.5},
+			Opinion{0, 1, 0, 0.5},
 			false,
 		},
 		{"TestComplement3",
 			args{&Opinion{0, 1, 0, 0.5}},
-			&Opinion{1, 0, 0, 0.5},
+			Opinion{1, 0, 0, 0.5},
 			false,
 		},
 		{"TestComplement4",
 			args{&Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 0, 1, 0.5},
+			Opinion{0, 0, 1, 0.5},
 			false,
 		},
 		{"TestComplement5",
 			args{&Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.3, 0.6, 0.1, 1},
+			Opinion{0.3, 0.6, 0.1, 1},
 			false,
 		},
 		{"TestComplement6",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.604, 0.091, 0.305, 0.6},
+			Opinion{0.604, 0.091, 0.305, 0.6},
 			false,
 		},
 		{"TestComplement7",
 			args{&Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.227, 0.53, 0.243, 0.000},
+			Opinion{0.227, 0.53, 0.243, 0.000},
 			false,
 		},
 		{"TestComplement8",
 			args{&Opinion{0.004, 0.5950000001, 0.4009999999, 0.00000000004334}},
-			&Opinion{0.5950000001, 0.004, 0.4009999999, 0.99999999995666},
+			Opinion{0.5950000001, 0.004, 0.4009999999, 0.99999999995666},
 			false,
 		},
 		{"TestComplement9",
 			args{&Opinion{0, 0.999999999999999, 0.000000000000001, 0.5000000000000000000000000000000000000003}},
-			&Opinion{0.999999999999999, 0, 0.000000000000001, 0.4999999999999999999999999999999999999997},
+			Opinion{0.999999999999999, 0, 0.000000000000001, 0.4999999999999999999999999999999999999997},
 			false,
 		},
 		{"TestComplement10",
 			args{&Opinion{0.000473, 0.555506, 0.444021, 0}},
-			&Opinion{0.555506, 0.000473, 0.444021, 1},
+			Opinion{0.555506, 0.000473, 0.444021, 1},
 			false,
 		},
 	}
@@ -89,7 +89,7 @@ func TestComplement(t *testing.T) {
 				t.Errorf("Complement() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.ComparePtr(tt.want) {
+			if !got.Compare(tt.want) {
 				t.Errorf("Complement() got = %v, want %v", got, tt.want)
 			}
 		})

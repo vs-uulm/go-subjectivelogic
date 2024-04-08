@@ -26,35 +26,35 @@ func TestAddition(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
-		{"TestWeightedFusion1",
+		{"TestAddition1",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true,
 		},
-		{"TestWeightedFusion2",
+		{"TestAddition2",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
-		{"TestWeightedFusion3",
+		{"TestAddition3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//general tests
-		{"TestWeightedFusion6",
+		{"TestAddition4",
 			args{&Opinion{0.5, 0.3, 0.2, 0.5}, &Opinion{0, 0.7, 0.3, 0.2}},
-			&Opinion{0.5, 0.2714285714286, 0.2285714285714, 0.7},
+			Opinion{0.5, 0.2714285714286, 0.2285714285714, 0.7},
 			false,
 		},
-		{"TestWeightedFusion7",
+		{"TestAddition5",
 			args{&Opinion{0.3, 0.2, 0.5, 0.3}, &Opinion{0.1, 0.2, 0.7, 0.1}},
-			&Opinion{0.4, 0.05, 0.55, 0.4},
+			Opinion{0.4, 0.05, 0.55, 0.4},
 			false,
 		},
 	}
@@ -65,7 +65,7 @@ func TestAddition(t *testing.T) {
 				t.Errorf("Addition() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.ComparePtr(tt.want) {
+			if !got.Compare(tt.want) {
 				t.Errorf("Addition() got = %v, want %v", got, tt.want)
 			}
 		})

@@ -38,23 +38,23 @@ func TestComultiplication(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestComumtiplication1",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestComumtiplication2",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestComumtiplication3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
@@ -62,48 +62,48 @@ func TestComultiplication(t *testing.T) {
 		{"TestComumtiplication4",
 			args{&Opinion{0.6, 0.3, 0.1, 0},
 				&Opinion{0.000473, 0.555506, 0.444021, 0}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestComumtiplication5",
 			args{&Opinion{0.53, 0.227, 0.243, 1.000},
 				&Opinion{0.53, 0.227, 0.243, 1.000}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestComumtiplication6",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
-			&Opinion{1, 0, 0, 0.75},
+			Opinion{1, 0, 0, 0.75},
 			false,
 		},
 		{"TestComumtiplication7",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{1, 0, 0, 0.75},
+			Opinion{1, 0, 0, 0.75},
 			false,
 		},
 		{"TestComumtiplication8",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 0.333333333333333, 0.666666666666666, 0.75},
+			Opinion{0, 0.333333333333333, 0.666666666666666, 0.75},
 			false,
 		},
 		{"TestComumtiplication9",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.6, 0.4, 0, 0.5},
+			Opinion{0.6, 0.4, 0, 0.5},
 			false,
 		},
 		{"TestComumtiplication10",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.6, 0, 0.4, 0.5},
+			Opinion{0.6, 0, 0.4, 0.5},
 			false,
 		},
 		{"TestComumtiplication11",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.6364, 0.2416, 0.122, 0.4},
+			Opinion{0.6364, 0.2416, 0.122, 0.4},
 			false,
 		},
 		{"TestComumtiplication12",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.57277, 0.178649, 0.248581, 1},
+			Opinion{0.57277, 0.178649, 0.248581, 1},
 			false,
 		},
 	}
@@ -114,7 +114,7 @@ func TestComultiplication(t *testing.T) {
 				t.Errorf("Comultiplication() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.ComparePtr(tt.want) {
+			if !got.Compare(tt.want) {
 				t.Errorf("Comultiplication() got = %v, want %v", got, tt.want)
 			}
 		})

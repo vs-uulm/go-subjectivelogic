@@ -26,69 +26,69 @@ func TestWeightedFusion(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestWeightedFusion1",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestWeightedFusion2",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestWeightedFusion3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//u1 = u2 = 0
 		{"TestWeightedFusion4",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
-			&Opinion{0.5, 0.5, 0, 0.5},
+			Opinion{0.5, 0.5, 0, 0.5},
 			false,
 		},
 
 		//u1 = u2 = 1
 		{"TestWeightedFusion5",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 0, 1, 0.5},
+			Opinion{0, 0, 1, 0.5},
 			false,
 		},
 
 		//general tests
 		{"TestWeightedFusion6",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{1, 0, 0, 0.5},
+			Opinion{1, 0, 0, 0.5},
 			false,
 		},
 		{"TestWeightedFusion7",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 1, 0, 0.5},
+			Opinion{0, 1, 0, 0.5},
 			false,
 		},
 		{"TestWeightedFusion8",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0, 1, 0, 0.2631578947368},
+			Opinion{0, 1, 0, 0.2631578947368},
 			false,
 		},
 		{"TestWeightedFusion9",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.6, 0.3, 0.1, 0},
+			Opinion{0.6, 0.3, 0.1, 0},
 			false,
 		},
 		{"TestWeightedFusion10",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.497164244186, 0.3614186046512, 0.1414171511628, 0.1742946708464},
+			Opinion{0.497164244186, 0.3614186046512, 0.1414171511628, 0.1742946708464},
 			false,
 		},
 		{"TestWeightedFusion11",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.3445420741927, 0.3862656902719, 0.2691922355354, 0.7128099173554},
+			Opinion{0.3445420741927, 0.3862656902719, 0.2691922355354, 0.7128099173554},
 			false,
 		},
 	}
@@ -99,7 +99,7 @@ func TestWeightedFusion(t *testing.T) {
 				t.Errorf("WeightedFusion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.ComparePtr(tt.want) {
+			if !got.Compare(tt.want) {
 				t.Errorf("WeightedFusion() got = %v, want %v", got, tt.want)
 			}
 		})

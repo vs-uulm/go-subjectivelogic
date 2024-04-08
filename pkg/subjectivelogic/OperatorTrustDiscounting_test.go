@@ -26,64 +26,64 @@ func TestTrustDiscounting(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestTrustDiscounting",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true},
 		{"TestTrustDiscounting",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{1, 0, 0, 0.5}, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//general testing
 		{"TestTrustDiscounting",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
-			&Opinion{0, 1, 0, 0.5},
+			Opinion{0, 1, 0, 0.5},
 			false,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 0, 1, 0.5},
+			Opinion{0, 0, 1, 0.5},
 			false,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0, 0, 1, 0},
+			Opinion{0, 0, 1, 0},
 			false,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.3, 0.15, 0.55, 0},
+			Opinion{0.3, 0.15, 0.55, 0},
 			false,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.0546, 0.3624, 0.583, 0.4},
+			Opinion{0.0546, 0.3624, 0.583, 0.4},
 			false,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.1278, 0.0639, 0.8083, 0},
+			Opinion{0.1278, 0.0639, 0.8083, 0},
 			false,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.11289, 0.048351, 0.838759, 1},
+			Opinion{0.11289, 0.048351, 0.838759, 1},
 			false,
 		},
 		{"TestTrustDiscounting",
 			args{&Opinion{0.53, 0.227, 0.243, 1.000}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.070343, 0.466892, 0.462765, 0.4},
+			Opinion{0.070343, 0.466892, 0.462765, 0.4},
 			false,
 		},
 	}
@@ -94,7 +94,7 @@ func TestTrustDiscounting(t *testing.T) {
 				t.Errorf("TrustDiscounting() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !got.ComparePtr(tt.want) {
+			if !got.Compare(tt.want) {
 				t.Errorf("TrustDiscounting() got = %v, want %v", got, tt.want)
 			}
 		})
