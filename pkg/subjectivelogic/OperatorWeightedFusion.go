@@ -18,9 +18,9 @@ import (
 	"errors"
 )
 
-func WeightedFusion(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func WeightedFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("WeightedFusion: Input cannot be nil.")
+		return Opinion{}, errors.New("WeightedFusion: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief

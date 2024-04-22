@@ -26,69 +26,69 @@ func TestCumulativeFusion(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestCumulativeFusion1",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestCumulativeFusion2",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestCumulativeFusion3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//u1 = u2 = 0
 		{"TestCumulativeFusion4",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
-			&Opinion{0.5, 0.5, 0, 0.5},
+			Opinion{0.5, 0.5, 0, 0.5},
 			false,
 		},
 
 		//u1 = u2 = 1
 		{"TestCumulativeFusion5",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 0, 1, 0.5},
+			Opinion{0, 0, 1, 0.5},
 			false,
 		},
 
 		//general tests
 		{"TestCumulativeFusion6",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{1, 0, 0, 0.5},
+			Opinion{1, 0, 0, 0.5},
 			false,
 		},
 		{"TestCumulativeFusion7",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 1, 0, 0.5},
+			Opinion{0, 1, 0, 0.5},
 			false,
 		},
 		{"TestCumulativeFusion8",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0, 1, 0, 0.5},
+			Opinion{0, 1, 0, 0.5},
 			false,
 		},
 		{"TestCumulativeFusion9",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.6, 0.3, 0.1, 0},
+			Opinion{0.6, 0.3, 0.1, 0},
 			false,
 		},
 		{"TestCumulativeFusion10",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.5129506008011, 0.4056074766355, 0.08144192256342, 0.08081395348837},
+			Opinion{0.5129506008011, 0.4056074766355, 0.08144192256342, 0.08081395348837},
 			false,
 		},
 		{"TestCumulativeFusion11",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.3877797355899, 0.4558215600831, 0.156398704327, 0.7465267528829},
+			Opinion{0.3877797355899, 0.4558215600831, 0.156398704327, 0.7465267528829},
 			false,
 		},
 	}
@@ -104,4 +104,8 @@ func TestCumulativeFusion(t *testing.T) {
 			}
 		})
 	}
+}
+
+func BenchmarkCumulativeFusion(b *testing.B) {
+	bmBinarySlFunc(CumulativeFusion, b)
 }

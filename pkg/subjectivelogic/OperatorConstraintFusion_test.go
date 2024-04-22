@@ -26,69 +26,69 @@ func TestConstraintFusion(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestConstraintFusion1",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestConstraintFusion2",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestConstraintFusion3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//Con = 1
 		{"TestConstraintFusion4",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//u1 = u2 = 1
 		{"TestConstraintFusion5",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 0, 1, 0.5},
+			Opinion{0, 0, 1, 0.5},
 			false,
 		},
 
 		//general tests
 		{"TestConstraintFusion6",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{1, 0, 0, 0.5},
+			Opinion{1, 0, 0, 0.5},
 			false,
 		},
 		{"TestConstraintFusion7",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 1, 0, 0.5},
+			Opinion{0, 1, 0, 0.5},
 			false,
 		},
 		{"TestConstraintFusion8",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0, 1, 0, 0.2631578947368},
+			Opinion{0, 1, 0, 0.2631578947368},
 			false,
 		},
 		{"TestConstraintFusion9",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.6, 0.3, 0.1, 0},
+			Opinion{0.6, 0.3, 0.1, 0},
 			false,
 		},
 		{"TestConstraintFusion10",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.4042274291332, 0.5457971489431, 0.04997542192364, 0.1742946708464},
+			Opinion{0.4042274291332, 0.5457971489431, 0.04997542192364, 0.1742946708464},
 			false,
 		},
 		{"TestConstraintFusion11",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.3519188499188, 0.535653337338, 0.1124278127432, 0.7128099173554},
+			Opinion{0.3519188499188, 0.535653337338, 0.1124278127432, 0.7128099173554},
 			false,
 		},
 	}
@@ -104,4 +104,8 @@ func TestConstraintFusion(t *testing.T) {
 			}
 		})
 	}
+}
+
+func BenchmarkConstraintFusion(b *testing.B) {
+	bmBinarySlFunc(ConstraintFusion, b)
 }

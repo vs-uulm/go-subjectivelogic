@@ -193,7 +193,7 @@ func TestOpinion_Modify(t *testing.T) {
 
 		if i < nrOfValidOpinions {
 			expected := &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-			if !o.Compare(expected) {
+			if !o.Compare(*expected) {
 				t.Errorf("Invalid output on i = %d | Output: %f, %f, %f, %f | Expected %f, %f, %f, %f", i,
 					o.belief, o.disbelief, o.uncertainty, o.baseRate, testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3])
 			} else {
@@ -237,14 +237,14 @@ func TestOpinion_ProjProb(t *testing.T) {
 	}
 }
 
-func TestOpinion_Compare(t *testing.T) {
+func TestOpinion_ComparePtr(t *testing.T) {
 
-	var o1, o2 *Opinion
+	var o1, o2 Opinion
 	if !o1.Compare(o2) {
 		t.Errorf("Incorrect output: Output: %t, Expected: %t | Opinion1: \"nil\" | Opinion2 \"nil\" ", true, false)
 	}
 
-	o1 = &Opinion{1, 0, 0, 1}
+	o1 = Opinion{1, 0, 0, 1}
 	if o1.Compare(o2) {
 		t.Errorf("Incorrect output: Output: %t, Expected: %t | Opinion1: 1, 0, 0, 1 | Opinion2 \"nil\" ", false, true)
 	}
@@ -262,13 +262,13 @@ func TestOpinion_Compare(t *testing.T) {
 				j++
 			} // Skip element 9
 
-			o1 = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-			o2 = &Opinion{testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3]}
+			o1 = Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
+			o2 = Opinion{testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3]}
 			passed1 := o1.Compare(o2)
 			passed2 := o2.Compare(o1)
 
 			if passed1 != passed2 {
-				t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.Compare(o2) = %t, o2.Compare(o1) = %t", i, j,
+				t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.ComparePtr(o2) = %t, o2.ComparePtr(o1) = %t", i, j,
 					testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3],
 					testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3], passed1, passed2)
 			} else {
@@ -284,13 +284,13 @@ func TestOpinion_Compare(t *testing.T) {
 	//Test element 2 == element 9, as they are within tolerance from each other
 	i := 1
 	j := 8
-	o1 = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-	o2 = &Opinion{testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3]}
+	o1 = Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
+	o2 = Opinion{testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3]}
 	passed1 := o1.Compare(o2)
 	passed2 := o2.Compare(o1)
 
 	if passed1 != passed2 {
-		t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.Compare(o2) = %t, o2.Compare(o1) = %t", i, j,
+		t.Errorf("Inconsistent output on i = %d, j = %d | Opinion1: %f, %f, %f, %f | Opinion2 %f, %f, %f, %f | o1.ComparePtr(o2) = %t, o2.ComparePtr(o1) = %t", i, j,
 			testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3],
 			testValuesOpinions[j][0], testValuesOpinions[j][1], testValuesOpinions[j][2], testValuesOpinions[j][3], passed1, passed2)
 	} else {
@@ -351,4 +351,38 @@ func TestOpinion_ToString(t *testing.T) {
 	if str != expected {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)
 	}
+}
+
+var sink Opinion
+
+// Should do no allocation
+func BenchmarkNewOpinion(b *testing.B) {
+	for range b.N {
+		var err error
+		x, err := NewOpinion(1, 0, 0, 0)
+		if err != nil {
+			b.Error(err)
+		}
+		sink = x
+	}
+}
+
+func bmBinarySlFunc(f func(*Opinion, *Opinion) (Opinion, error), b *testing.B) {
+	opinion1, err := NewOpinion(0.5, 0.5, 0, 0.2)
+	if err != nil {
+		b.Error(err)
+	}
+	opinion2, err := NewOpinion(0.1, 0.9, 0, 0.1)
+	if err != nil {
+		b.Error(err)
+	}
+	b.ResetTimer()
+	for range b.N {
+		x, err := f(&opinion1, &opinion2)
+		if err != nil {
+			b.Error(err)
+		}
+		sink = x
+	}
+
 }

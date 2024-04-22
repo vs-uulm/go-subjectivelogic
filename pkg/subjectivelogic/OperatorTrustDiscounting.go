@@ -18,10 +18,10 @@ import (
 	"errors"
 )
 
-func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("OpTrustDisc: Input cannot be nil.")
+		return Opinion{}, errors.New("OpTrustDisc: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief
@@ -41,27 +41,21 @@ func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	return NewOpinion(b, d, u, a)
 }
 
-func MultiEdgeTrustDisc(opinions []*Opinion) (*Opinion, error) {
+func MultiEdgeTrustDisc(opinions []Opinion) (Opinion, error) {
 
 	if opinions == nil {
-		return nil, errors.New("MultiEdgeTrustDisc: Input cannot be nil.")
+		return Opinion{}, errors.New("MultiEdgeTrustDisc: Input cannot be nil.")
 	}
 	n := len(opinions)
 	if n < 2 {
-		return nil, errors.New("MultiEdgeTrustDisc: At least two Opinions required.")
+		return Opinion{}, errors.New("MultiEdgeTrustDisc: At least two Opinions required.")
 	}
 
 	pAcc := 1.0
 	for i := 0; i < (n - 1); i++ {
-		if opinions[i] == nil {
-			return nil, errors.New("MultiEdgeTrustDisc: List cannot contain nil.")
-		}
 		pAcc *= opinions[i].ProjProb()
 	}
 
-	if opinions[n-1] == nil {
-		return nil, errors.New("MultiEdgeTrustDisc: List cannot contain nil.")
-	}
 	funcTrust := opinions[n-1]
 	b := pAcc * funcTrust.belief
 	d := pAcc * funcTrust.disbelief

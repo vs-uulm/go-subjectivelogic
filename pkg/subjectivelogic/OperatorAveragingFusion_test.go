@@ -26,62 +26,62 @@ func TestAveragingFusion(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestAveragingFusion1",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestAveragingFusion",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestAveragingFusion3",
 			args{&Opinion{0, 1, 0, 0.5}, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//u1 = u2 = 0
 		{"TestAveragingFusion4",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
-			&Opinion{0.5, 0.5, 0, 0.5},
+			Opinion{0.5, 0.5, 0, 0.5},
 			false,
 		},
 
 		//general tests
 		{"TestAveragingFusion5",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{1, 0, 0, 0.5},
+			Opinion{1, 0, 0, 0.5},
 			false,
 		},
 		{"TestAveragingFusion6",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0, 0, 1, 0.5}},
-			&Opinion{0, 1, 0, 0.5},
+			Opinion{0, 1, 0, 0.5},
 			false,
 		},
 		{"TestAveragingFusion7",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0, 1, 0, 0.25},
+			Opinion{0, 1, 0, 0.25},
 			false,
 		},
 		{"TestAveragingFusion8",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{0.6, 0.3, 0.1, 0}},
-			&Opinion{0.545454545454545, 0.272727272727272, 0.181818181818181, 0.25},
+			Opinion{0.545454545454545, 0.272727272727272, 0.181818181818181, 0.25},
 			false,
 		},
 		{"TestAveragingFusion9",
 			args{&Opinion{0.6, 0.3, 0.1, 0}, &Opinion{0.091, 0.604, 0.305, 0.4}},
-			&Opinion{0.4743209876543, 0.3750617283951, 0.1506172839506, 0.2},
+			Opinion{0.4743209876543, 0.3750617283951, 0.1506172839506, 0.2},
 			false,
 		},
 		{"TestAveragingFusion10",
 			args{&Opinion{0.091, 0.604, 0.305, 0.4}, &Opinion{0.53, 0.227, 0.243, 1.000}},
-			&Opinion{0.3353339416058, 0.3941733576642, 0.2704927007299, 0.7},
+			Opinion{0.3353339416058, 0.3941733576642, 0.2704927007299, 0.7},
 			false,
 		},
 	}
@@ -97,4 +97,8 @@ func TestAveragingFusion(t *testing.T) {
 			}
 		})
 	}
+}
+
+func BenchmarkAveragingFusion(b *testing.B) {
+	bmBinarySlFunc(AveragingFusion, b)
 }

@@ -18,12 +18,12 @@ import (
 	"errors"
 )
 
-func Multiplication(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func Multiplication(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("Multiplication: Input cannot be nil.")
+		return Opinion{}, errors.New("Multiplication: Input cannot be nil.")
 	}
 	if opinion1.baseRate == 1 && opinion2.baseRate == 1 {
-		return nil, errors.New("Multiplication: opinion1.baseRate = 1 and opinion2.baseRate = 1.")
+		return Opinion{}, errors.New("Multiplication: opinion1.baseRate = 1 and opinion2.baseRate = 1.")
 	}
 
 	b1 := opinion1.belief

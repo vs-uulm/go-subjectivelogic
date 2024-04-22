@@ -47,70 +47,70 @@ func TestMultiplication(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Opinion
+		want    Opinion
 		wantErr bool
 	}{
 		//nil input
 		{"TestMultiplication1",
 			args{nil, nil},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestMultiplication2",
 			args{nil, testOpinionsMult[1]},
-			nil,
+			Opinion{},
 			true,
 		},
 		{"TestMultiplication3",
 			args{testOpinionsMult[0], nil},
-			nil,
+			Opinion{},
 			true,
 		},
 
 		//general tests
 		{"TestMultiplication4",
 			args{testOpinionsMult[0], testOpinionsMult[1]},
-			&Opinion{0, 1, 0, 0.25},
+			Opinion{0, 1, 0, 0.25},
 			false,
 		},
 		{"TestMultiplication5",
 			args{testOpinionsMult[0], testOpinionsMult[2]},
-			&Opinion{0.333333333333333, 0, 0.666666666666666, 0.25},
+			Opinion{0.333333333333333, 0, 0.666666666666666, 0.25},
 			false,
 		},
 		{"TestMultiplication6",
 			args{testOpinionsMult[1], testOpinionsMult[2]},
-			&Opinion{0, 1, 0, 0.25},
+			Opinion{0, 1, 0, 0.25},
 			false,
 		},
 		{"TestMultiplication7",
 			args{testOpinionsMult[1], testOpinionsMult[3]},
-			&Opinion{0, 1, 0, 0},
+			Opinion{0, 1, 0, 0},
 			false,
 		},
 		{"TestMultiplication8",
 			args{testOpinionsMult[2], testOpinionsMult[3]},
-			&Opinion{0.3, 0.3, 0.4, 0},
+			Opinion{0.3, 0.3, 0.4, 0},
 			false,
 		},
 		{"TestMultiplication9",
 			args{testOpinionsMult[3], testOpinionsMult[4]},
-			&Opinion{0.1278, 0.7228, 0.1494, 0},
+			Opinion{0.1278, 0.7228, 0.1494, 0},
 			false,
 		},
 		{"TestMultiplication10",
 			args{testOpinionsMult[4], testOpinionsMult[5]},
-			&Opinion{0.070343, 0.693892, 0.235765, 0.4},
+			Opinion{0.070343, 0.693892, 0.235765, 0.4},
 			false,
 		},
 		{"TestMultiplication11",
 			args{testOpinionsMult[5], testOpinionsMult[4]},
-			&Opinion{0.070343, 0.693892, 0.235765, 0.4},
+			Opinion{0.070343, 0.693892, 0.235765, 0.4},
 			false,
 		},
 		{"TestMultiplication11",
 			args{testOpinionsMult[5], testOpinionsMult[5]},
-			nil,
+			Opinion{},
 			true,
 		},
 	}
@@ -127,4 +127,8 @@ func TestMultiplication(t *testing.T) {
 			}
 		})
 	}
+}
+
+func BenchmarkMultiplication(b *testing.B) {
+	bmBinarySlFunc(Multiplication, b)
 }

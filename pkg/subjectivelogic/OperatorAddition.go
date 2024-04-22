@@ -19,9 +19,9 @@ import (
 	"math"
 )
 
-func Addition(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
+func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return nil, errors.New("Addition: Input cannot be nil.")
+		return Opinion{}, errors.New("Addition: Input cannot be nil.")
 	}
 
 	b1 := opinion1.belief
@@ -56,23 +56,23 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (*Opinion, error) {
 	if err != nil {
 		if b > 1 {
 			o, _ = NewOpinion(1, 0, 0, math.Min(a, 1))
-			err = errors.New("Value b exceeded 1")
+			err = errors.New("value b exceeded 1")
 		} else {
 
 			p := (b + u*a)
 			if p > 1 {
 				o, _ = NewOpinion(b, 0, 1-b, 1)
-				err = errors.New("Value p exceeded 1")
+				err = errors.New("value p exceeded 1")
 			} else {
 
 				if a > 1 {
 					o, _ = NewOpinion(b, 1-p, p-b, 1)
-					err = errors.New("Value a exceeded 1")
+					err = errors.New("value a exceeded 1")
 				} else {
 
 					if d < 0 {
 						o, _ = NewOpinion(b, 0, u+d, a*u/(u+d))
-						err = errors.New("Adjustment of disbelief")
+						err = errors.New("adjustment of disbelief")
 					}
 				}
 			}
