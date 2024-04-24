@@ -38,11 +38,9 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	d := -1.0
 	u := -1.0
 	a := -1.0
+
 	if a1 == 0 && a2 == 0 {
-		b = b1 + b2
-		d = ((d1 - b2) + (d2 - b1)) / 2
-		u = (u1 + u2) / 2
-		a = 0
+		return Opinion{}, errors.New("Addition: Base rates cannot be both equal to 0.")
 
 	} else {
 		b = b1 + b2
