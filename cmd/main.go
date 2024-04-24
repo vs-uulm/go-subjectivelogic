@@ -1,10 +1,15 @@
 package main
 
-import "gitlab-vs.informatik.uni-ulm.de/connect/go-subjectivelogic"
+import (
+	"github.com/vs-uulm/go-subjectivelogic/pkg/subjectivelogic"
+	"fmt"
+
+)
 
 func main() {
 
-	op1 := NewOpinion(0.2,0.3,0.5,0.5)
+	op1, _ := subjectivelogic.NewOpinion(0.2,0.3,0.5,0.5)
+	fmt.Println(op1)
 	
 
 }
