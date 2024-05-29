@@ -20,7 +20,7 @@ import (
 
 func Complement(opinion *Opinion) (Opinion, error) {
 	if opinion == nil {
-		return Opinion{}, errors.New("Complement: Input cannot be nil.")
+		return Opinion{}, errors.New("Complement: Input cannot be nil")
 	}
 
 	return NewOpinion(opinion.disbelief, opinion.belief, opinion.uncertainty, 1-opinion.baseRate)

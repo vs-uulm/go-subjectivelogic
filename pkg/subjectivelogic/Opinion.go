@@ -44,7 +44,7 @@ If the input Values violate the requirements for a valid Opinion, the *Opinion w
 For a valid Opinion, all input values i must fulfill 0 <= i <= 1 and for the first tree inputs b, d, u, the statement b+d+u = 1 must hold.
 */
 func NewOpinion(belief, disbelief, uncertainty, baseRate float64) (Opinion, error) {
-	if checkInput(belief, disbelief, uncertainty, baseRate) == false {
+	if !checkInput(belief, disbelief, uncertainty, baseRate) {
 		return Opinion{}, errors.New("NewOpinion: Invalid Input")
 	}
 	op := Opinion{belief: belief, disbelief: disbelief, uncertainty: uncertainty, baseRate: baseRate}

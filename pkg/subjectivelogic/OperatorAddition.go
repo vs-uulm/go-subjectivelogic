@@ -21,7 +21,7 @@ import (
 
 func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
-		return Opinion{}, errors.New("Addition: Input cannot be nil.")
+		return Opinion{}, errors.New("Addition: Input cannot be nil")
 	}
 
 	b1 := opinion1.belief
@@ -40,7 +40,7 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	a := -1.0
 
 	if a1 == 0 && a2 == 0 {
-		return Opinion{}, errors.New("Addition: Base rates cannot be both equal to 0.")
+		return Opinion{}, errors.New("Addition: Base rates cannot be both equal to 0")
 
 	} else {
 		b = b1 + b2

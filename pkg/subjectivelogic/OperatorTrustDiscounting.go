@@ -21,7 +21,7 @@ import (
 func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 
 	if opinion1 == nil || opinion2 == nil {
-		return Opinion{}, errors.New("OpTrustDisc: Input cannot be nil.")
+		return Opinion{}, errors.New("OpTrustDisc: Input cannot be nil")
 	}
 
 	b1 := opinion1.belief
@@ -44,11 +44,11 @@ func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 func MultiEdgeTrustDisc(opinions []Opinion) (Opinion, error) {
 
 	if opinions == nil {
-		return Opinion{}, errors.New("MultiEdgeTrustDisc: Input cannot be nil.")
+		return Opinion{}, errors.New("MultiEdgeTrustDisc: Input cannot be nil")
 	}
 	n := len(opinions)
 	if n < 2 {
-		return Opinion{}, errors.New("MultiEdgeTrustDisc: At least two Opinions required.")
+		return Opinion{}, errors.New("MultiEdgeTrustDisc: At least two Opinions required")
 	}
 
 	pAcc := 1.0
