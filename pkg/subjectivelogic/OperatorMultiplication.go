@@ -23,7 +23,7 @@ func Multiplication(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 		return Opinion{}, errors.New("Multiplication: Input cannot be nil")
 	}
 	if opinion1.baseRate == 1 && opinion2.baseRate == 1 {
-		return Opinion{}, errors.New("Multiplication: opinion1.baseRate = 1 and opinion2.baseRate = 1")
+		return Opinion{}, errors.New("Multiplication: Base rates cannot both be 1")
 	}
 
 	b1 := opinion1.belief

@@ -22,9 +22,6 @@ func Comultiplication(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	if opinion1 == nil || opinion2 == nil {
 		return Opinion{}, errors.New("Comultiplication: Input cannot be nil")
 	}
-	if opinion1.baseRate == 1 && opinion2.baseRate == 1 {
-		return Opinion{}, errors.New("Comultiplication: Invalid arguments: opinion1.baseRate = opinion2.baseRate = 1")
-	}
 	if opinion1.baseRate == 0 && opinion2.baseRate == 0 {
 		return Opinion{}, errors.New("Comultiplication: Invalid arguments: opinion1.baseRate = opinion2.baseRate = 0")
 	}
