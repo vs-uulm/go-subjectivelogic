@@ -19,9 +19,15 @@ import (
 )
 
 func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
-
+	// Checking if the opinion pointers are empty
 	if opinion1 == nil || opinion2 == nil {
 		return Opinion{}, errors.New("OpTrustDisc: Input cannot be nil")
+	}
+
+	// Checking if the opinion values are null values
+	nullChecker := Opinion{belief: 0, disbelief: 0, uncertainty: 0, baseRate: 0}
+	if *opinion1 == nullChecker || *opinion2 == nullChecker {
+		return Opinion{}, errors.New("Addition: Inputs cannot be null opinions")
 	}
 
 	b1 := opinion1.belief

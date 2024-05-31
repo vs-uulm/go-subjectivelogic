@@ -19,9 +19,18 @@ import (
 )
 
 func Multiplication(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
+	// Checking if the opinion pointers are empty
 	if opinion1 == nil || opinion2 == nil {
 		return Opinion{}, errors.New("Multiplication: Input cannot be nil")
 	}
+
+	// Checking if the opinion values are null values
+	nullChecker := Opinion{belief: 0, disbelief: 0, uncertainty: 0, baseRate: 0}
+	if *opinion1 == nullChecker || *opinion2 == nullChecker {
+		return Opinion{}, errors.New("Addition: Inputs cannot be null opinions")
+	}
+
+	// Checking if base rates are 1 as this is undefined
 	if opinion1.baseRate == 1 && opinion2.baseRate == 1 {
 		return Opinion{}, errors.New("Multiplication: Base rates cannot both be 1")
 	}
