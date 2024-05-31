@@ -24,12 +24,10 @@ func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	}
 
 	b1 := opinion1.belief
-	d1 := opinion1.disbelief
 	u1 := opinion1.uncertainty
 	a1 := opinion1.baseRate
 
 	b2 := opinion2.belief
-	d2 := opinion2.disbelief
 	u2 := opinion2.uncertainty
 	a2 := opinion2.baseRate
 
@@ -37,24 +35,27 @@ func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	d := -1.0
 	u := -1.0
 	a := -1.0
-	if u1 == 0 && u2 == 0 {
+
+	if u1 != 0 || u2 != 0 {
+
+		b = (b1*u2 + b2*u1) / (u1 + u2 - u1*u2)
+		u = u1 * u2 / (u1 + u2 - u1*u2)
+
+		if u1 != 1 || u2 != 1 {
+			a = (a1*u2 + a2*u1 - (a1+a2)*u1*u2) / (u1 + u2 - 2*u1*u2)
+		} else {
+			a = (a1 + a2) / 2
+		}
+
+	} else {
+
 		b = 0.5 * (b1 + b2)
-		d = 0.5 * (d1 + d2)
 		u = 0
 		a = 0.5 * (a1 + a2)
 
-	} else {
-		b = (b1*u2 + b2*u1) / (u1 + u2 - u1*u2)
-		d = (d1*u2 + d2*u1) / (u1 + u2 - u1*u2)
-		u = u1 * u2 / (u1 + u2 - u1*u2)
-
-		if u1 == 1 && u2 == 1 {
-			a = (a1 + a2) / 2
-
-		} else {
-			a = (a1*u2 + a2*u1 - (a1+a2)*u1*u2) / (u1 + u2 - 2*u1*u2)
-		}
 	}
+
+	d = 1 - b - d
 
 	return NewOpinion(b, d, u, a)
 }
