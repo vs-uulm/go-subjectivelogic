@@ -16,7 +16,6 @@ package subjectivelogic
 
 import (
 	"errors"
-	"math"
 )
 
 func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
@@ -52,29 +51,15 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	o, err := NewOpinion(b, d, u, a)
 
 	if err != nil {
-		if b > 1 {
-			o, _ = NewOpinion(1, 0, 0, math.Min(a, 1))
-			err = errors.New("value b exceeded 1")
-		} else {
-
-			p := (b + u*a)
-			if p > 1 {
-				o, _ = NewOpinion(b, 0, 1-b, 1)
-				err = errors.New("value p exceeded 1")
-			} else {
-
-				if a > 1 {
-					o, _ = NewOpinion(b, 1-p, p-b, 1)
-					err = errors.New("value a exceeded 1")
-				} else {
-
-					if d < 0 {
-						o, _ = NewOpinion(b, 0, u+d, a*u/(u+d))
-						err = errors.New("adjustment of disbelief")
-					}
-				}
-			}
-		}
+		return Opinion{}, errors.New("Addition: Check the validity of your input values")
 	}
+
+	if b > 1 {
+		return Opinion{}, errors.New("Addition: Sum of beliefs cannot exceed 1")
+	} else if a > 1 {
+		return Opinion{}, errors.New("Addition: Sum of base rates cannot exceed 1")
+	}
+
 	return o, err
+
 }
