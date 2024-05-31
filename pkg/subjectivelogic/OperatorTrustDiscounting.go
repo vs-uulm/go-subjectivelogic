@@ -35,7 +35,7 @@ func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	p1 := b1 + u1*a1
 	b := p1 * b2
 	d := p1 * d2
-	u := 1 - p1*(b2+d2)
+	u := 1 - b - d
 	a := a2
 
 	return NewOpinion(b, d, u, a)
@@ -51,16 +51,16 @@ func MultiEdgeTrustDisc(opinions []Opinion) (Opinion, error) {
 		return Opinion{}, errors.New("MultiEdgeTrustDisc: At least two Opinions required")
 	}
 
-	pAcc := 1.0
+	P_acc := 1.0
 	for i := 0; i < (n - 1); i++ {
-		pAcc *= opinions[i].ProjProb()
+		P_acc *= opinions[i].ProjProb()
 	}
 
-	funcTrust := opinions[n-1]
-	b := pAcc * funcTrust.belief
-	d := pAcc * funcTrust.disbelief
-	u := 1 - pAcc*(funcTrust.belief+funcTrust.disbelief)
-	a := funcTrust.baseRate
+	nth_Opinion := opinions[n-1]
+	b := P_acc * nth_Opinion.belief
+	d := P_acc * nth_Opinion.disbelief
+	u := 1 - b - d
+	a := nth_Opinion.baseRate
 
 	return NewOpinion(b, d, u, a)
 }
