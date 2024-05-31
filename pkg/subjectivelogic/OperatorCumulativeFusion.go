@@ -55,7 +55,7 @@ func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 
 	}
 
-	d = 1 - b - d
+	d = 1 - b - u
 
 	return NewOpinion(b, d, u, a)
 }
