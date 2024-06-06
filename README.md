@@ -22,7 +22,6 @@ This Go library implements subjective logic functionalities. It therefore provid
 This implements the Addition Operator as defined in Subjective Logic.
 If the function encounters a problematic input, or the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Addition Operator is defined as:
 
 $$
@@ -35,6 +34,8 @@ a_{x\cup y} = 0
 \end{cases}
 $$
 
+### Implementation
+TBD
 
 #### Problematic Inputs
 The Addition Operator has the problem of not always returning a proper Opinion. Inputs $\omega_{x} = {b_x, d_x, u_x, a_x}$, $\omega_{y} = {b_y, d_y, u_y, a_y}$ are problematic, if:
@@ -52,7 +53,6 @@ Also, the Addition Operator will attempt to divide through $0$, if $a_x = a_y = 
 This implements the Complement Operator as defined in Subjective Logic.
 If the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Complement Operator is defined as:
 $$
 	\omega_{\overline{x}}  :
@@ -64,11 +64,14 @@ $$
 	\end{cases}
 $$
 
+
+### Implementation
+TBD
+
 ## Binomial Multiplication
 This implements the Binomial Multiplication Operator as defined in Subjective Logic.
 If the function encounters a problematic input, or the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Binomial Multiplication Operator is defined as:
 $$
 	\omega_{x \wedge y}  :
@@ -79,16 +82,17 @@ $$
 		a_{x \wedge y} = a_x a_y
 	\end{cases}       
 $$
- 
 
 #### Problematic Inputs
 The Binomial Multiplication Operator will try to divide through $0$, if $a_x = a_y = 1$, hence this is not allowed and an error is returned.
+
+### Implementation
+TBD 
 
 ## Binomial Comultiplication
 This implements the Comultiplication Operator Operator as defined in Subjective Logic.
 If the function encounters a problematic input, or the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Binomial Comultiplication Operator is defined as:
 $$
 	\omega_{x \wedge y}  :
@@ -103,11 +107,13 @@ $$
 #### Problematic Inputs
 The Binomial Comultiplication Operator will try to divide through $0$, if $a_x = a_y = 0$, hence this is not allowed and an error will be returned.
 
+### Implementation
+TBD
+
 ## Belief Constraint Fusion
 This implements the Belief Constraint Fusion Operator as defined in Subjective Logic.
 If the function encounters a problematic input, or the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Belief Constraint Fusion Operator is defined as:
 $$
 	Con = b_{X}^{A}d_{X}^{B} + d_{X}^{A}b_{X}^{B}
@@ -128,12 +134,13 @@ $$
 #### Problematic Inputs
 The Belief Constraint Fusion Operator will try to divide through $0$, if the conflict variable $Con = 1$, and an error will be returned.
 
+### Implementation
+TBD 
 
 ## Cumulative Fusion
 This implements the Aleatory Cumulative Fusion Operator as defined in Subjective Logic.
 If the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Aleatory Cumulative Fusion Operator is defined as:
 If $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
 $$
@@ -161,12 +168,13 @@ $$
 $$
 
 
+### Implementation
+TBD 
 
 ## Averaging Fusion
 This implements the Averaging Fusion Operator as defined in Subjective Logic.
 If the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Averaging Fusion Operator is defined as:
 If $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
 $$
@@ -192,13 +200,13 @@ $$
 	\text{where} \hspace{2mm} \gamma_{X}^{A} = \gamma_{X}^{B} = 0.5     
 $$
 
-
+### Implementation
+TBD 
 
 ## Weighted Fusion
 This implements the Weighted Fusion Operator as defined in Subjective Logic.
 If the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Weighted Fusion Operator is defined as:
 If $(u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0) \wedge (u_{X}^{A} \neq 1 \vee u_{X}^{B} \neq 1)$:
 $$
@@ -235,11 +243,13 @@ $$
 	\end{cases}       
 $$
 
+### Implementation
+TBD 
+
 ## Trust Discounting
 This implements the Trust Discounting Operator as defined in Subjective Logic.
 If the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 The Trust Discounting Operator is defined as:
 $$
 	\omega_{X}^{[A;B]}  :
@@ -250,12 +260,12 @@ $$
 	\end{cases}       
 $$
 
-
+### Implementation
+TBD 
 
 ## Trust Discounting for Multi-edge Path
 This implements the Trust Discounting Operator for Multi-edge Paths as defined in Subjective Logic. If the resulting Opinion is malformed, an error will be returned instead.
 
-### Implementation
 If $[A_1, ..., A_n]$ denotes the referral trust path and $[A_n, X]$ the functional trust, the Trust Discounting Operator for multi-edge paths is defined as:
 
 $$
@@ -271,7 +281,8 @@ $$
 	P_{A_n}^{A_1} =  \prod_{i=1}^{n-1} P_{A_{i+1}}^{A_i}     
 $$
 
-
+### Implementation
+TBD 
 
 
 
