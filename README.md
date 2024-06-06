@@ -160,30 +160,7 @@ $$
 	 \text{where} \hspace{2mm} \gamma_{X}^{A} = \gamma_{X}^{B} = 0.5     
 $$
 
-And implemented as follows:
-If $u_x \neq 0 \vee u_y \neq 0$:
-$$
-	\omega_{out}  :
-	\begin{cases}
-		b_{out} = \frac{b_xu_y + b_yu_x}{u_x + u_y - u_x u_y} \\
-		d_{out} = \frac{d_xu_y + d_yu_x}{u_x + u_y - u_x u_y} \\
-		u_{out} = \frac{u_xu_y}{u_x + u_y - u_x u_y} \\
-		a_{out} = \frac{a_xu_y + a_yu_x - (a_x +  a_y)u_yu_x}{u_x + u_y - 2 u_x u_y} & \text{if} \hspace{2mm} u_x \neq 1 \vee u_y \neq 1 \\
-		a_{out} = \frac{a_x+a_y}{2} & \text{if} \hspace{2mm}u_x = u_y = 1
-	\end{cases}       
-$$
 
-
-If $u_x = u_y = 0$:
-$$
-	\omega_{out}  :
-	\begin{cases}
-		b_{out}(x) = 0.5*b_x + 0.5*b_y \\
-		d_{out}(x) = 0.5*d_x + 0.5*d_y \\
-		u_{out} = 0 \\
-		a_{out}(x) = 0.5*a_x + 0.5*a_y
-	\end{cases}       
-$$
 
 ## Averaging Fusion
 This implements the Averaging Fusion Operator as defined in Subjective Logic.
@@ -215,29 +192,6 @@ $$
 	\text{where} \hspace{2mm} \gamma_{X}^{A} = \gamma_{X}^{B} = 0.5     
 $$
 
-And implemented as follows:
-If $u_x \neq 0 \vee u_y \neq 0$:
-$$
-	\omega_{out}  :
-	\begin{cases}
-		b_{out} = \frac{b_xu_y + b_yu_x}{u_x + u_y} \\
-		d_{out} = \frac{d_xu_y + d_yu_x}{u_x + u_y} \\
-		u_{out} = \frac{2 u_xu_y}{u_x + u_y} \\
-		a_{out} = \frac{a_x+a_y}{2}
-	\end{cases}       
-$$
-
-
-If $u_x = u_y = 0$:
-$$
-	\omega_{out}  :
-	\begin{cases}
-		b_{out}(x) = 0.5*b_x + 0.5b_y \\
-		d_{out}(x) = 0.5*d_x + 0.5d_y \\
-		u_{out} = 0 \\
-		a_{out} = 0.5a_x + 0.5a_y
-	\end{cases}       
-$$
 
 
 ## Weighted Fusion
@@ -281,42 +235,6 @@ $$
 	\end{cases}       
 $$
 
-And implemented as follows:
-If $(u_x \neq 0 \vee u_y \neq 0) \wedge (u_x \neq 1 \vee u_y \neq 1)$:
-$$
-	\omega_{out} :
-	\begin{cases}
-		b_{out} = \frac{b_x(1-u_x)u_y + b_y(1-u_y)u_x}{u_x + u_y - 2u_x u_y} \\
-		d_{out} = \frac{d_x(1-u_x)u_y + d_y(1-u_y)u_x}{u_x + u_y - 2u_x u_y} \\
-		u_{out} = \frac{(2 - u_x - u_y)u_xu_y}{u_x + u_y - 2u_x u_y} \\
-		a_{out} = \frac{a_x(1-u_x) + a_y(1-u_y)}{2 - u_x - u_y}
-	\end{cases}       
-$$
-
-
-If $u_x = u_y = 0$:
-$$
-	\omega_{out} :
-	\begin{cases}
-		b_{out}(x) = 0.5* b_x + 0.5* b_y \\
-		d_{out}(x) = 0.5* d_x + 0.5* d_y \\
-		u_{out} = 0 \\
-		a_{out} = 0.5* a_x + 0.5* a_y
-	\end{cases}       
-$$
-
-
-If $u_x = u_y = 1$:
-$$
-	\omega_{out} :
-	\begin{cases}
-		b_{out} = 0 \\
-		d_{out} = 0 \\
-		u_{out} = 1 \\
-		a_{out} = \frac{a_x+a_y}{2}
-	\end{cases}       
-$$
-
 ## Trust Discounting
 This implements the Trust Discounting Operator as defined in Subjective Logic.
 If the resulting Opinion is malformed, an error will be returned instead.
@@ -333,16 +251,6 @@ $$
 $$
 
 
-And implemented as follows:
-$$
-	\omega_{out} :
-	\begin{cases}
-		b_{out} = (b_x + u_x*a_x)*b_y \\
-		d_{out} = (b_x + u_x*a_x)*d_y \\
-		u_{out} = 1 - (b_x + u_x*a_x)*(b_y + d_y) \\
-		a_{out} = a_y 
-	\end{cases}       
-$$
 
 ## Trust Discounting for Multi-edge Path
 This implements the Trust Discounting Operator for Multi-edge Paths as defined in Subjective Logic. If the resulting Opinion is malformed, an error will be returned instead.
@@ -363,17 +271,6 @@ $$
 	P_{A_n}^{A_1} =  \prod_{i=1}^{n-1} P_{A_{i+1}}^{A_i}     
 $$
 
-
-And implemented as follows:
-$$
-	\omega_{out} =
-	\begin{cases}
-		b_{out} = \prod_{i=1}^{n-1} (b_i + u_i*a_i)*b_n \\
-		d_{out} = \prod_{i=1}^{n-1} (b_i + u_i*a_i)*d_n \\
-		u_{out} = 1 - \prod_{i=1}^{n-1} (b_i + u_i*a_i)*(b_n + d_n) \\
-		a_{out} = a_n 
-	\end{cases}       
-$$
 
 
 
