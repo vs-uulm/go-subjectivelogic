@@ -42,48 +42,11 @@ The Addition Operator has the problem of not always returning a proper Opinion. 
 $$
 \begin{split}
 b_x + b_y &> 1 \text{, or} \\
-a_x + a_y &> 1 \text{, or} \\
-a_x(d_x - b_y) + a_y(d_y - b_x) &< 0
+a_x + a_y &> 1 
 \end{split}
 $$
 
-Also, the Addition Operator will attempt to divide through $0$, if $a_x = a_y = 0$.
-
-
-
-#### Adaptions
-To cover the special case of $a_x =a_y = 0$ the following adapted formula will be used:
-
-$$
-\omega_{(x\cup y)} : 
-\begin{cases}
-b_{x\cup y} = b_x + b_y \\
-d_{x\cup y} = \frac{d_x - b_y + d_y - b_x}{2} \\
-u_{x\cup y} = \frac{u_x + u_y}{2} \\
-a_{x\cup y} = 0
-\end{cases}
-$$
-
-
-As the Addition Operator does not always return a proper opinion, several adaptions have been made to cover the stated cases. Provided that $\omega_{out} = (b_{out}, d_{out}, u_{out}, a_{out})$ is the opinion directly provided by the Operator and $\omega_{fin} = (b_{fin}, d_{fin}, u_{fin}, a_{fin})$ is the final output, all adaptions make sure, that $b_{fin} = min(b_x+b_y, 1)$, $p_{fin} = min(p_y+p_y, 1)$ and that $\omega_{fin}$ is a proper binomial opinion. The first two conditions can be transformed as follows: 
-$$
-b_{fin} = min(b_{out}, 1),\hspace{2mm}p_{fin} = min(p_{out}, 1)
-$$
-
-Following this, the following adaptions allow for a sensible output when: $b_{out} > 1$, $p_{out} > 1$, $a_{out} > 1$ and $d_{out} < 0$.
-
-$$
-\begin{split}
-		&\text{If}\hspace{2mm} b_{out} > 1, \omega_{out} = \{1, 0, 0, min\{a_{out}, 1\}\} \hspace{2mm}\text{will be returned.} \\
-
-		&\text{If}\hspace{2mm} b_{out} \leq 1 \hspace{2mm}\text{and}\hspace{2mm} p_{out} > 1, \omega_{out} = \{b_{out}, 0, 1 - b_{out}, 1\} \hspace{2mm}\text{will be returned.} \\
-
-		&\text{If}\hspace{2mm} b_{out}, p_{out} \leq 1 \hspace{2mm}\text{and}\hspace{2mm} a_{out} > 1, \omega_{out} = \{b_{out}, 1 - p_{out}, p_{out} - b_{out}, 1\} \hspace{2mm}\text{will be returned.} \\
-
-		&\text{If}\hspace{2mm} b_{out}, p_{out}, a_{out} \leq 1 \hspace{2mm}\text{and}\hspace{2mm} d_{out} < 0, \\ 
-		&\omega_{out} = \{b_{out}, 0, u_{out} + d_{out}, \frac{u_{out}}{u_{out} + d_{out}} a_{out}\} \hspace{2mm}\text{will be returned.}
-\end{split}
-$$
+Also, the Addition Operator will attempt to divide through $0$, if $a_x = a_y = 0$, hence this is not allowed and an error will be returned.
 
 ## Complement
 This implements the Complement Operator as defined in Subjective Logic.
@@ -119,7 +82,7 @@ $$
  
 
 #### Problematic Inputs
-The Binomial Multiplication Operator will try to divide through $0$, if $a_x = a_y = 1$.
+The Binomial Multiplication Operator will try to divide through $0$, if $a_x = a_y = 1$, hence this is not allowed and an error is returned.
 
 ## Binomial Comultiplication
 This implements the Comultiplication Operator Operator as defined in Subjective Logic.
@@ -138,7 +101,7 @@ $$
 $$
 
 #### Problematic Inputs
-The Binomial Comultiplication Operator will try to divide through $0$, if $a_x = a_y = 0$.
+The Binomial Comultiplication Operator will try to divide through $0$, if $a_x = a_y = 0$, hence this is not allowed and an error will be returned.
 
 ## Belief Constraint Fusion
 This implements the Belief Constraint Fusion Operator as defined in Subjective Logic.
@@ -163,7 +126,9 @@ $$
 
 
 #### Problematic Inputs
-The Belief Constraint Fusion Operator will try to divide through $0$, if the Conflict $Con = 1$.
+The Belief Constraint Fusion Operator will try to divide through $0$, if the conflict variable $Con = 1$, and an error will be returned.
+
+
 ## Cumulative Fusion
 This implements the Aleatory Cumulative Fusion Operator as defined in Subjective Logic.
 If the resulting Opinion is malformed, an error will be returned instead.
@@ -379,7 +344,7 @@ $$
 	\end{cases}       
 $$
 
-## Consecutive Trust Discounting
+## Trust Discounting for Multi-edge Path
 This implements the Trust Discounting Operator for Multi-edge Paths as defined in Subjective Logic. If the resulting Opinion is malformed, an error will be returned instead.
 
 ### Implementation
