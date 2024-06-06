@@ -16,12 +16,18 @@ package subjectivelogic
 
 import (
 	"errors"
-	"math"
 )
 
 func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
+	// Checking if the opinion pointers are empty
 	if opinion1 == nil || opinion2 == nil {
-		return Opinion{}, errors.New("Addition: Input cannot be nil.")
+		return Opinion{}, errors.New("Addition: Input cannot be nil")
+	}
+
+	// Checking if the opinion values are null values
+	nullChecker := Opinion{belief: 0, disbelief: 0, uncertainty: 0, baseRate: 0}
+	if *opinion1 == nullChecker || *opinion2 == nullChecker {
+		return Opinion{}, errors.New("Addition: Inputs cannot be null opinions")
 	}
 
 	b1 := opinion1.belief
@@ -38,11 +44,9 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	d := -1.0
 	u := -1.0
 	a := -1.0
+
 	if a1 == 0 && a2 == 0 {
-		b = b1 + b2
-		d = ((d1 - b2) + (d2 - b1)) / 2
-		u = (u1 + u2) / 2
-		a = 0
+		return Opinion{}, errors.New("Addition: Base rates cannot be both equal to 0")
 
 	} else {
 		b = b1 + b2
@@ -54,29 +58,15 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	o, err := NewOpinion(b, d, u, a)
 
 	if err != nil {
-		if b > 1 {
-			o, _ = NewOpinion(1, 0, 0, math.Min(a, 1))
-			err = errors.New("value b exceeded 1")
-		} else {
-
-			p := (b + u*a)
-			if p > 1 {
-				o, _ = NewOpinion(b, 0, 1-b, 1)
-				err = errors.New("value p exceeded 1")
-			} else {
-
-				if a > 1 {
-					o, _ = NewOpinion(b, 1-p, p-b, 1)
-					err = errors.New("value a exceeded 1")
-				} else {
-
-					if d < 0 {
-						o, _ = NewOpinion(b, 0, u+d, a*u/(u+d))
-						err = errors.New("adjustment of disbelief")
-					}
-				}
-			}
-		}
+		return Opinion{}, errors.New("Addition: Check the validity of your input values")
 	}
+
+	if b > 1 {
+		return Opinion{}, errors.New("Addition: Sum of beliefs cannot exceed 1")
+	} else if a > 1 {
+		return Opinion{}, errors.New("Addition: Sum of base rates cannot exceed 1")
+	}
+
 	return o, err
+
 }

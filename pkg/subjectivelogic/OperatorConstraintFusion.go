@@ -19,8 +19,15 @@ import (
 )
 
 func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
+	// Checking if the opinion pointers are empty
 	if opinion1 == nil || opinion2 == nil {
-		return Opinion{}, errors.New("ConstraintFusion: Input cannot be nil.")
+		return Opinion{}, errors.New("ConstraintFusion: Input cannot be nil")
+	}
+
+	// Checking if the opinion values are null values
+	nullChecker := Opinion{belief: 0, disbelief: 0, uncertainty: 0, baseRate: 0}
+	if *opinion1 == nullChecker || *opinion2 == nullChecker {
+		return Opinion{}, errors.New("ConstraintFusion: Inputs cannot be null opinions")
 	}
 
 	b1 := opinion1.belief
@@ -33,24 +40,22 @@ func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	u2 := opinion2.uncertainty
 	a2 := opinion2.baseRate
 
-	con := b1*d2 + d1*b2
+	har := b1*u2 + b2*u1 + b1*b2
+	con := b1*d2 + b2*d1
 
 	if con == 1 {
-		return Opinion{}, errors.New("ConstraintFusion: Invalid arguments: Con = 1.")
+		return Opinion{}, errors.New("ConstraintFusion: mathematically possible only if input opinions are not conflicting and do not result in Con = 1")
 	}
 
-	har1 := b1*u2 + b2*u1 + b1*b2
-	har2 := d1*u2 + d2*u1 + d1*d2
-
-	b := har1 / (1 - con)
-	d := har2 / (1 - con)
+	b := har / (1 - con)
 	u := u1 * u2 / (1 - con)
+	d := 1 - b - u
 
 	a := -1.0
-	if u1 == 1 && u2 == 1 {
-		a = (a1 + a2) / 2
-	} else {
+	if u1+u2 < 2 {
 		a = (a1*(1-u1) + a2*(1-u2)) / (2 - u1 - u2)
+	} else {
+		a = (a1 + a2) / 2
 	}
 
 	return NewOpinion(b, d, u, a)
