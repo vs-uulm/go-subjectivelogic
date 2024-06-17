@@ -74,6 +74,7 @@ if err != nil {
 	println(fmt.Sprintf("Opinion: %.2f, %.2f, %.2f, %.2f", belief, disbelief, uncertainty, baseRate))
 }
 ```
+---
 
 ### Addition
 This implements the Addition Operator as defined in Subjective Logic:
@@ -135,7 +136,7 @@ Case 1: Opinion =  0.6000000000000001, 0.1, 0.3, 1 Error: <nil>
 ```go
 Case 2: Opinion =  0, 0, 0, 0 Error: Addition: Check the validity of your input values
 ```
-
+---
 
 ### Complement
 This implements the Complement Operator as defined in Subjective Logic:
@@ -179,7 +180,7 @@ The code snippet above shows the usage of the Complement operator. This specific
 ```go
 Output: {0.8 0.2 0 0.5} <nil>
 ```
-
+---
 
 ### Binomial Multiplication
 This implements the Binomial Multiplication Operator as defined in Subjective Logic:
@@ -225,8 +226,9 @@ The code snippet above shows the usage of the Multiplication operator. This spec
 ```go
 Output: {0.12000000000000002 0.8 0.08 0.25} <nil>
 ```
+---
 
-## Binomial Comultiplication
+### Binomial Comultiplication
 This implements the Comultiplication Operator as defined in Subjective Logic:
 
 $$
@@ -271,11 +273,13 @@ The code snippet above shows the usage of the Comultiplication operator. This sp
 ```go
 Output: {0.52 0.16 0.32 0.75} <nil>
 ```
-
+---
 
 ### Belief Constraint Fusion
 ==This implements the Belief Constraint Fusion Operator as defined in Subjective Logic:==
 
+
+NEEDS TO BE EDITED
 $$
 	\omega_{X}^{(A\&B)}  :
 	\begin{cases}
@@ -323,12 +327,12 @@ The code snippet above shows the usage of the Belief Constraint operator. This s
 ```go
 Output: {0.2941176470588236 0.7058823529411764 0 0.5} <nil>
 ```
-
+---
 
 ### Cumulative Fusion
 This implements the Aleatory Cumulative Fusion Operator as defined in Subjective Logic:
 
-If $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
+Case I: For $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
 $$
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
@@ -340,7 +344,7 @@ $$
 $$
 
 
-If $u_{X}^{A} = u_{X}^{B} = 0$:
+Case II: For $u_{X}^{A} = u_{X}^{B} = 0$:
 $$
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
@@ -360,21 +364,36 @@ func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
 ```
 
 #### Problematic Inputs
+There are no problematic inputs for this operator, as long as they are valid opinions.
 
 #### Example
 
 ```go
+func main() {
 
+	opinion1, _ := subjectivelogic.NewOpinion(0.2, 0.8, 0, 0.5) 
+	opinion2, _ := subjectivelogic.NewOpinion(0.4, 0, 0.6, 0.5)
+
+	out, err := subjectivelogic.CumulativeFusion(&opinion1, &opinion2)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Output:", out, err)
+	}
+}
 ```
 The code snippet above shows the usage of the Cumulative fusion operator. This specific example will result in the following output:
 
-
-
+```go
+Output: {0.2 0.8 0 0.5} <nil>
+```
+---
 
 ### Averaging Fusion
 This implements the Averaging Fusion Operator as defined in Subjective Logic:
 
-If $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
+Case I: For $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
 $$
 	\omega_{X}^{(A\underline{\diamond} B)}  :
 	\begin{cases}
@@ -385,7 +404,7 @@ $$
 $$
 
 
-If $u_{X}^{A} = u_{X}^{B} = 0$:
+Case II: For $u_{X}^{A} = u_{X}^{B} = 0$:
 $$
 	\omega_{X}^{(A\underline{\diamond} B)}  :
 	\begin{cases}
@@ -400,15 +419,43 @@ $$
 
 #### API Reference
 
+```go
+func AveragingFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
+```
+
 #### Problematic Inputs
+There are no problematic inputs for this operator, as long as they are valid opinions.
 
 #### Example
-TBD 
+
+```go
+func main() {
+
+	opinion1, _ := subjectivelogic.NewOpinion(0.2, 0.8, 0, 0.5) 
+	opinion2, _ := subjectivelogic.NewOpinion(0.4, 0, 0.6, 0.5)
+
+	out, err := subjectivelogic.AveragingFusion(&opinion1, &opinion2)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Output:", out, err)
+	}
+}
+```
+
+The code snippet above shows the usage of the Averaging fusion operator. This specific example will result in the following output:
+
+```go
+Output: {0.2 0.8 0 0.5} <nil>
+```
+
+---
 
 ### Weighted Fusion
 This implements the Weighted Fusion Operator as defined in Subjective Logic:
 
-If $(u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0) \wedge (u_{X}^{A} \neq 1 \vee u_{X}^{B} \neq 1)$:
+Case I: For $(u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0) \wedge (u_{X}^{A} \neq 1 \vee u_{X}^{B} \neq 1)$:
 $$
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
@@ -419,7 +466,7 @@ $$
 $$
 
 
-If $u_{X}^{A} = u_{X}^{B} = 0$:
+Case II: For $u_{X}^{A} = u_{X}^{B} = 0$:
 $$
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
@@ -433,7 +480,7 @@ $$
 $$
 
 
-If $u_{X}^{A} = u_{X}^{B} = 1$:
+Case III: $u_{X}^{A} = u_{X}^{B} = 1$:
 $$
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
@@ -444,11 +491,37 @@ $$
 $$
 
 #### API Reference
+```go
+func WeightedFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
+```
 
 #### Problematic Inputs
+There are no problematic inputs for this operator, as long as they are valid opinions.
+
 
 #### Example
-TBD 
+```go
+func main() {
+
+	opinion1, _ := subjectivelogic.NewOpinion(0.2, 0.8, 0, 0.5) 
+	opinion2, _ := subjectivelogic.NewOpinion(0.4, 0, 0.6, 0.5)
+
+	out, err := subjectivelogic.WeightedFusion(&opinion1, &opinion2)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Output:", out, err)
+	}
+}
+```
+The code snippet above shows the usage of the Weighted fusion operator. This specific example will result in the following output:
+
+```go
+Output: {0.2 0.8 0 0.5} <nil>
+```
+
+---
 
 ### Trust Discounting
 This implements the Trust Discounting Operator as defined in Subjective Logic:
