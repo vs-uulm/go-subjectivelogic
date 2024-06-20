@@ -1,5 +1,6 @@
 # Contributors to go-subjectivelogic
 
- * Benjamin Erb
- * Lukas Nürnberger 
- * Nataša Trkulja
+ * Lea Baumstark
+ * Benjamin Erb (Institute of Distributed Systems, Ulm University, Germany)
+ * Lukas Nürnberger
+ * Nataša Trkulja (Institute of Distributed Systems, Ulm University, Germany)

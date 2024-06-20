@@ -66,13 +66,19 @@ opinion, err := subjectivelogic.NewOpinion(.5, .25, .25, .5)
 if err != nil {
 	println(err.Error())
 } else {
-	belief := opinion.getBelief()
-	disbelief := opinion.getDisbelief()
+	belief := opinion.GetBelief()
+	disbelief := opinion.GetDisbelief()
 	uncertainty := opinion.GetUncertainty()
 	baseRate := opinion.GetBaseRate()
 	
 	println(fmt.Sprintf("Opinion: %.2f, %.2f, %.2f, %.2f", belief, disbelief, uncertainty, baseRate))
 }
+```
+
+This code generates the following output:
+
+```
+Opinion: 0.50, 0.25, 0.25, 0.50
 ```
 ---
 
@@ -127,13 +133,13 @@ func main() {
 
 The above code snippet shows the usage of the Addition operator. Case 1 uses two Opinions that are not problematic for the Addition operator, resulting in a valid output Opinion and no error:
 
-```go
+```
 Case 1: Opinion =  0.6000000000000001, 0.1, 0.3, 1 Error: <nil>
 ```
 
  Case 2 uses two valid Opinions that are problematic for the Addition operator as the sum of their belief masses exceeds $1$. This results in the Addition operator returning a zeroed Opinion and an error. 
 
-```go
+```
 Case 2: Opinion =  0, 0, 0, 0 Error: Addition: Check the validity of your input values
 ```
 ---
@@ -177,7 +183,7 @@ func main() {
 ```
 The code snippet above shows the usage of the Complement operator. This specific example will result in the following output:
 
-```go
+```
 Output: {0.8 0.2 0 0.5} <nil>
 ```
 ---
@@ -223,7 +229,7 @@ func main() {
 
 The code snippet above shows the usage of the Multiplication operator. This specific example will result in the following output:
 
-```go
+```
 Output: {0.12000000000000002 0.8 0.08 0.25} <nil>
 ```
 ---
@@ -270,7 +276,7 @@ func main() {
 
 The code snippet above shows the usage of the Comultiplication operator. This specific example will result in the following output:
 
-```go
+```
 Output: {0.52 0.16 0.32 0.75} <nil>
 ```
 ---
@@ -324,7 +330,7 @@ func main() {
 
 The code snippet above shows the usage of the Belief Constraint operator. This specific example will result in the following output:
 
-```go
+```
 Output: {0.2941176470588236 0.7058823529411764 0 0.5} <nil>
 ```
 ---
@@ -385,7 +391,7 @@ func main() {
 ```
 The code snippet above shows the usage of the Cumulative fusion operator. This specific example will result in the following output:
 
-```go
+```
 Output: {0.2 0.8 0 0.5} <nil>
 ```
 ---
@@ -446,7 +452,7 @@ func main() {
 
 The code snippet above shows the usage of the Averaging fusion operator. This specific example will result in the following output:
 
-```go
+```
 Output: {0.2 0.8 0 0.5} <nil>
 ```
 
@@ -517,7 +523,7 @@ func main() {
 ```
 The code snippet above shows the usage of the Weighted fusion operator. This specific example will result in the following output:
 
-```go
+```
 Output: {0.2 0.8 0 0.5} <nil>
 ```
 
@@ -574,13 +580,4 @@ Contributions are very welcome! Please let us know if you find an issue and have
 This project is licensed under the Apache License, Verion 2.0 - see the LICENSE file for details.
 
 ## Contact
-For questions or support, please open an issue on GitHub.
-
-
-
-
-
-
-
-
-
+In case of problems or issues, please open an issue on GitHub.   
