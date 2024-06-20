@@ -38,6 +38,17 @@ type Opinion struct {
 }
 
 /*
+An interface to query binomial opinions from subjective logic.
+Provided to increase compatibility with other SL implementations.
+*/
+type QueryableOpinion interface {
+	GetBelief() float64
+	GetDisbelief() float64
+	GetUncertainty() float64
+	GetBaseRate() float64
+}
+
+/*
 NewOpinion takes four float64 values and outputs an *Opinion as well as an Error.
 In case a valid Opinion can be formed, it will be returned and the error will be nil.
 If the input Values violate the requirements for a valid Opinion, the *Opinion will be nil and an error will be returned.
