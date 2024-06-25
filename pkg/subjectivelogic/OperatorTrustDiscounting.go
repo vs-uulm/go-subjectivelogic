@@ -59,7 +59,7 @@ func MultiEdgeTrustDisc(opinions []Opinion) (Opinion, error) {
 
 	P_acc := 1.0
 	for i := 0; i < (n - 1); i++ {
-		P_acc *= opinions[i].ProjProb()
+		P_acc *= opinions[i].ProjectedProbability()
 	}
 
 	nth_Opinion := opinions[n-1]

@@ -86,14 +86,14 @@ func TestOpinion_GetBelief(t *testing.T) {
 			gotPanic = true
 		}
 	}()
-	_ = o.GetBelief()
+	_ = o.Belief()
 	if !gotPanic {
 		t.Errorf("Invalid call from \"nil\" passed undetected")
 	}
 
 	for i := 0; i < nrOfValidOpinions; i++ {
 		o = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-		b := o.GetBelief()
+		b := o.Belief()
 
 		if math.Abs(b-o.belief) >= Precision {
 			t.Errorf("Incorrect output at i = %d: Output %f | Expected: %f | Deviation: %v", i, b,
@@ -112,14 +112,14 @@ func TestOpinion_GetDisbelief(t *testing.T) {
 			gotPanic = true
 		}
 	}()
-	_ = o.GetDisbelief()
+	_ = o.Disbelief()
 	if !gotPanic {
 		t.Errorf("Invalid call from \"nil\" passed undetected")
 	}
 
 	for i := 0; i < nrOfValidOpinions; i++ {
 		o = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-		d := o.GetDisbelief()
+		d := o.Disbelief()
 
 		if math.Abs(d-o.disbelief) >= Precision {
 			t.Errorf("Incorrect output at i = %d: Output %f | Expected: %f | Deviation: %v", i, d, o.disbelief,
@@ -137,14 +137,14 @@ func TestOpinion_GetUncertainty(t *testing.T) {
 			gotPanic = true
 		}
 	}()
-	_ = o.GetUncertainty()
+	_ = o.Uncertainty()
 	if !gotPanic {
 		t.Errorf("Invalid call from \"nil\" passed undetected")
 	}
 
 	for i := 0; i < nrOfValidOpinions; i++ {
 		o = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-		u := o.GetUncertainty()
+		u := o.Uncertainty()
 
 		if math.Abs(u-o.uncertainty) >= Precision {
 			t.Errorf("Incorrect output at i = %d: Output %f | Expected: %f | Deviation: %v", i, u, o.uncertainty,
@@ -162,14 +162,14 @@ func TestOpinion_GetBaseRate(t *testing.T) {
 			gotPanic = true
 		}
 	}()
-	_ = o.GetBaseRate()
+	_ = o.BaseRate()
 	if !gotPanic {
 		t.Errorf("Invalid call from \"nil\" passed undetected")
 	}
 
 	for i := 0; i < nrOfValidOpinions; i++ {
 		o = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
-		a := o.GetBaseRate()
+		a := o.BaseRate()
 
 		if math.Abs(a-o.baseRate) >= Precision {
 			t.Errorf("Incorrect output at i = %d: Output %f | Expected: %f | Deviation: %v", i, a, o.baseRate,
@@ -220,7 +220,7 @@ func TestOpinion_ProjProb(t *testing.T) {
 			gotPanic = true
 		}
 	}()
-	_ = o.ProjProb()
+	_ = o.ProjectedProbability()
 	if !gotPanic {
 		t.Errorf("Invalid call from \"nil\" passed undetected")
 	}
@@ -228,7 +228,7 @@ func TestOpinion_ProjProb(t *testing.T) {
 	for i := 0; i < nrOfValidOpinions; i++ {
 		o = &Opinion{testValuesOpinions[i][0], testValuesOpinions[i][1], testValuesOpinions[i][2], testValuesOpinions[i][3]}
 
-		pp := o.ProjProb()
+		pp := o.ProjectedProbability()
 		expected := testValuesOpinions[i][4]
 
 		if math.Abs(pp-expected) >= ((1 + testValuesOpinions[i][1] + testValuesOpinions[i][2] + Precision) * Precision) {
@@ -305,48 +305,48 @@ func TestOpinion_ComparePtr(t *testing.T) {
 func TestOpinion_ToString(t *testing.T) {
 
 	var o *Opinion
-	str := o.ToString()
+	str := o.String()
 	if str != "nil" {
 		t.Errorf("Invalid call from \"nil\" passed undetected | Output: %v", str)
 	}
 
 	o = &Opinion{testValuesOpinions[0][0], testValuesOpinions[0][1], testValuesOpinions[0][2], testValuesOpinions[0][3]}
-	str = o.ToString()
+	str = o.String()
 	expected := "1, 0, 0, 0.5"
 	if str != expected {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)
 	}
 
 	o = &Opinion{testValuesOpinions[1][0], testValuesOpinions[1][1], testValuesOpinions[1][2], testValuesOpinions[1][3]}
-	str = o.ToString()
+	str = o.String()
 	expected = "0, 1, 0, 0.5"
 	if str != expected {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)
 	}
 
 	o = &Opinion{testValuesOpinions[2][0], testValuesOpinions[2][1], testValuesOpinions[2][2], testValuesOpinions[2][3]}
-	str = o.ToString()
+	str = o.String()
 	expected = "0, 0, 1, 0.5"
 	if str != expected {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)
 	}
 
 	o = &Opinion{testValuesOpinions[5][0], testValuesOpinions[5][1], testValuesOpinions[5][2], testValuesOpinions[5][3]}
-	str = o.ToString()
+	str = o.String()
 	expected = "0.53, 0.227, 0.243, 1"
 	if str != expected {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)
 	}
 
 	o = &Opinion{testValuesOpinions[6][0], testValuesOpinions[6][1], testValuesOpinions[6][2], testValuesOpinions[6][3]}
-	str = o.ToString()
+	str = o.String()
 	expected = "0.000473, 0.555506, 0.444021, 0"
 	if str != expected {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)
 	}
 
 	o = &Opinion{testValuesOpinions[7][0], testValuesOpinions[7][1], testValuesOpinions[7][2], testValuesOpinions[7][3]}
-	str = o.ToString()
+	str = o.String()
 	expected = "0.004, 0.5950000001, 0.4009999999, 4.334e-11"
 	if str != expected {
 		t.Errorf("Icorrect output | Output: %v | Expected: %v", str, expected)

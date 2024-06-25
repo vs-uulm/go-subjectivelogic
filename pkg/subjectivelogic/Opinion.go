@@ -42,10 +42,11 @@ An interface to query binomial opinions from subjective logic.
 Provided to increase compatibility with other SL implementations.
 */
 type QueryableOpinion interface {
-	GetBelief() float64
-	GetDisbelief() float64
-	GetUncertainty() float64
-	GetBaseRate() float64
+	Belief() float64
+	Disbelief() float64
+	Uncertainty() float64
+	BaseRate() float64
+	String() string
 }
 
 /*
@@ -63,32 +64,32 @@ func NewOpinion(belief, disbelief, uncertainty, baseRate float64) (Opinion, erro
 }
 
 /*
-GetBelief is called onto an *Opinion o and returns o.belief.
+Belief is called onto an *Opinion o and returns o.belief.
 */
-func (opinion *Opinion) GetBelief() float64 {
+func (opinion *Opinion) Belief() float64 {
 	return opinion.belief
 }
 
 /*
-GetDisbelief is called onto an *Opinion o and returns o.disbelief.
+Disbelief is called onto an *Opinion o and returns o.disbelief.
 */
-func (opinion *Opinion) GetDisbelief() float64 {
+func (opinion *Opinion) Disbelief() float64 {
 	return opinion.disbelief
 }
 
 /*
-GetUncertainty is called onto an *Opinion o and returns o.uncertainty.
+Uncertainty is called onto an *Opinion o and returns o.uncertainty.
 */
-func (opinion *Opinion) GetUncertainty() float64 {
+func (opinion *Opinion) Uncertainty() float64 {
 	return opinion.uncertainty
 }
 
 /*
-GetBaseRate is called onto an *Opinion o and returns o.baseRate.
+BaseRate is called onto an *Opinion o and returns o.baseRate.
 */
-func (opinion *Opinion) GetBaseRate() float64 {
+func (opinion *Opinion) BaseRate() float64 {
 	if opinion == nil {
-		panic("GetBaseRate(): method call from nil pointer")
+		panic("BaseRate(): method call from nil pointer")
 	}
 	return opinion.baseRate
 }
@@ -115,11 +116,11 @@ func (opinion *Opinion) Modify(belief, disbelief, uncertainty, baseRate float64)
 }
 
 /*
-ProjProb is called onto an *Opinion o and calculates the projected probability of o.
+ProjectedProbability is called onto an *Opinion o and calculates the projected probability of o.
 */
-func (opinion *Opinion) ProjProb() float64 {
+func (opinion *Opinion) ProjectedProbability() float64 {
 	if opinion == nil {
-		panic("ProjProb(): method call from nil pointer")
+		panic("ProjectedProbability(): method call from nil pointer")
 	}
 	return opinion.belief + opinion.uncertainty*opinion.baseRate
 }
@@ -134,7 +135,6 @@ func (opinion1 Opinion) Compare(opinion2 Opinion) bool {
 		math.Abs(opinion1.disbelief-opinion2.disbelief) < Precision &&
 		math.Abs(opinion1.uncertainty-opinion2.uncertainty) < Precision &&
 		math.Abs(opinion1.baseRate-opinion2.baseRate) < Precision
-
 }
 
 /*
@@ -146,10 +146,10 @@ func (opinion1 *Opinion) Copy() *Opinion {
 }
 
 /*
-ToString is called onto an *Opinion o and returns a string containing the values of o.
+String is called onto an *Opinion o and returns a string containing the values of o.
 If o is nil, "nil" is returned.
 */
-func (opinion *Opinion) ToString() string {
+func (opinion *Opinion) String() string {
 	if opinion == nil {
 		return "nil"
 	}
