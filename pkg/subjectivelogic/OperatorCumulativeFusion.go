@@ -16,6 +16,7 @@ package subjectivelogic
 
 import (
 	"errors"
+	"math"
 )
 
 func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
@@ -62,7 +63,7 @@ func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 
 	}
 
-	d = 1 - b - u
+	d = math.Max(0, 1-b-u)
 
 	return NewOpinion(b, d, u, a)
 }

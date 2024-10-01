@@ -91,6 +91,11 @@ func TestCumulativeFusion(t *testing.T) {
 			Opinion{0.3877797355899, 0.4558215600831, 0.156398704327, 0.7465267528829},
 			false,
 		},
+		{"TestCumulativeFusion12",
+			args{&Opinion{0.4, 0.0, 0.6, 0.5}, &Opinion{.7, .0, .3, .5}},
+			Opinion{.75, .0, .25, .5},
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

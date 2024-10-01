@@ -16,6 +16,7 @@ package subjectivelogic
 
 import (
 	"errors"
+	"math"
 )
 
 func AveragingFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
@@ -56,7 +57,7 @@ func AveragingFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 		a = 0.5 * (a1 + a2)
 	}
 
-	d = 1 - b - u
+	d = math.Max(0, 1-b-u)
 
 	return NewOpinion(b, d, u, a)
 }
