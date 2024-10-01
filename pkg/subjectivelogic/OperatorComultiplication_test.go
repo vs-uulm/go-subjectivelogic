@@ -68,8 +68,8 @@ func TestComultiplication(t *testing.T) {
 		{"TestComumtiplication5",
 			args{&Opinion{0.53, 0.227, 0.243, 1.000},
 				&Opinion{0.53, 0.227, 0.243, 1.000}},
-			Opinion{},
-			true,
+			Opinion{0.7791, 0.051529000000000005, 0.169371, 1.0},
+			false,
 		},
 		{"TestComumtiplication6",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{0, 1, 0, 0.5}},
@@ -111,11 +111,11 @@ func TestComultiplication(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := Comultiplication(tt.args.opinion1, tt.args.opinion2)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Comultiplication() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Comultiplication() test = %v, error = %v, wantErr %v", tt.name, err, tt.wantErr)
 				return
 			}
 			if !got.Compare(tt.want) {
-				t.Errorf("Comultiplication() got = %v, want %v", got, tt.want)
+				t.Errorf("Comultiplication() test = %v, got = %v, want %v", tt.name, got, tt.want)
 			}
 		})
 	}
