@@ -15,6 +15,7 @@
 package subjectivelogic
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math"
@@ -170,4 +171,18 @@ func checkInput(b, d, u, a float64) bool {
 		return true
 	}
 	return false
+}
+
+func (opinion *Opinion) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+		Belief      float64 `json:"belief"`
+		Disbelief   float64 `json:"disbelief"`
+		Uncertainty float64 `json:"uncertainty"`
+		BaseRate    float64 `json:"base_rate"`
+	}{
+		Belief:      opinion.Belief(),
+		Disbelief:   opinion.Disbelief(),
+		Uncertainty: opinion.Uncertainty(),
+		BaseRate:    opinion.BaseRate(),
+	})
 }
