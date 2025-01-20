@@ -538,9 +538,9 @@ This implements the Trust Discounting Operator as defined in Subjective Logic:
 ```math
 	\omega_{X}^{[A;B]}  :
 	\begin{cases}
-		b_{X}^{[A;B]}(x) & = P_B^{A}*b_{X}^B(x) \\
-		u_{X}^{[A;B]} & = 1 - P_B^{A}*\sum_{x \in X}b_{X}^B(x) \\
-		a_{X}^{[A;B]}(x) & = a_{X}^B(x)
+		\bm{b}_{X}^{[A;B]}(x) & = \bm{P}_B^{A}*\bm{b}_{X}^B(x) \\
+		u_{X}^{[A;B]} & = 1 - \bm{P}_B^{A}*\sum_{x \in \mathscr{R}(\mathbb{X})}\bm{b}_{X}^B(x) \\
+		\bm{a}_{X}^{[A;B]}(x) & = \bm{a}_{X}^B(x) \\
 	\end{cases}       
 ```
 
