@@ -77,7 +77,7 @@ if err != nil {
 
 This code generates the following output:
 
-```
+```go
 Opinion: 0.50, 0.25, 0.25, 0.50
 ```
 ---
@@ -85,7 +85,7 @@ Opinion: 0.50, 0.25, 0.25, 0.50
 ### Addition
 This implements the Addition Operator as defined in Subjective Logic:
 
-$$
+```math
 \omega_{(x\cup y)} = 
 \begin{cases}
 b_{x\cup y} = b_x + b_y \\
@@ -93,7 +93,7 @@ d_{x\cup y} = \frac{a_x(d_x - b_y) + a_y(d_y - b_x)}{a_x+a_y} \\
 u_{x\cup y} = \frac{a_xu_x + a_yu_y}{a_x+a_y} \\
 a_{x\cup y} = 0
 \end{cases}
-$$
+```
 
 #### API Reference
 
@@ -104,12 +104,12 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
 #### Problematic Inputs
 Inputs $\omega_{x} = (b_x, d_x, u_x, a_x)$ and $\omega_{y} = (b_y, d_y, u_y, a_y)$ are problematic and will result in an error, if:
 
-$$
+```math
 \begin{split}
 b_x + b_y &> 1 \text{, or} \\
 a_x + a_y &> 1 
 \end{split}
-$$
+```
 
 Moreover, the Addition Operator will attempt to divide through $0$, if $a_x = a_y = 0$, hence this is not allowed and an error will be returned.
 
@@ -133,13 +133,13 @@ func main() {
 
 The above code snippet shows the usage of the Addition operator. Case 1 uses two Opinions that are not problematic for the Addition operator, resulting in a valid output Opinion and no error:
 
-```
+```go
 Case 1: Opinion =  0.6000000000000001, 0.1, 0.3, 1 Error: <nil>
 ```
 
  Case 2 uses two valid Opinions that are problematic for the Addition operator as the sum of their belief masses exceeds $1$. This results in the Addition operator returning a zeroed Opinion and an error. 
 
-```
+```go
 Case 2: Opinion =  0, 0, 0, 0 Error: Addition: Check the validity of your input values
 ```
 ---
@@ -183,7 +183,7 @@ func main() {
 ```
 The code snippet above shows the usage of the Complement operator. This specific example will result in the following output:
 
-```
+```go
 Output: {0.8 0.2 0 0.5} <nil>
 ```
 ---
@@ -229,7 +229,7 @@ func main() {
 
 The code snippet above shows the usage of the Multiplication operator. This specific example will result in the following output:
 
-```
+```go
 Output: {0.12000000000000002 0.8 0.08 0.25} <nil>
 ```
 ---
@@ -276,7 +276,7 @@ func main() {
 
 The code snippet above shows the usage of the Comultiplication operator. This specific example will result in the following output:
 
-```
+```go
 Output: {0.52 0.16 0.32 0.75} <nil>
 ```
 ---
@@ -330,7 +330,7 @@ func main() {
 
 The code snippet above shows the usage of the Belief Constraint operator. This specific example will result in the following output:
 
-```
+```go
 Output: {0.2941176470588236 0.7058823529411764 0 0.5} <nil>
 ```
 ---
@@ -392,7 +392,7 @@ func main() {
 ```
 The code snippet above shows the usage of the Cumulative fusion operator. This specific example will result in the following output:
 
-```
+```go
 Output: {0.2 0.8 0 0.5} <nil>
 ```
 ---
@@ -454,7 +454,7 @@ func main() {
 
 The code snippet above shows the usage of the Averaging fusion operator. This specific example will result in the following output:
 
-```
+```go
 Output: {0.2 0.8 0 0.5} <nil>
 ```
 
@@ -526,7 +526,7 @@ func main() {
 ```
 The code snippet above shows the usage of the Weighted fusion operator. This specific example will result in the following output:
 
-```
+```go
 Output: {0.2 0.8 0 0.5} <nil>
 ```
 
