@@ -146,7 +146,7 @@ Case 2: Opinion =  0, 0, 0, 0 Error: Addition: Check the validity of your input 
 
 ### Complement
 This implements the Complement Operator as defined in Subjective Logic:
-$$
+```math
 	\omega_{\overline{x}}  :
 	\begin{cases}
 		b_{\overline{x}} = d_x \\
@@ -154,7 +154,7 @@ $$
 		u_{\overline{x}} = u_x \\
 		a_{\overline{x}} = 1 - a_x
 	\end{cases}
-$$
+```
 
 #### API Reference
 
