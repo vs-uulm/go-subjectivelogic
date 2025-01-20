@@ -545,33 +545,56 @@ This implements the Trust Discounting Operator as defined in Subjective Logic:
 ```
 
 #### API Reference
-
+```go
+func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
+```
 #### Problematic Inputs
+There are no problematic inputs for this operator, as long as they are valid opinions.
 
 #### Example
-TBD 
+```go
+func main() {
+
+	opinion1, _ := subjectivelogic.NewOpinion(0.2, 0.8, 0, 0.5) 
+	opinion2, _ := subjectivelogic.NewOpinion(0.4, 0, 0.6, 0.5)
+
+	out, err := subjectivelogic.TrustDiscounting(&opinion1, &opinion2)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Output:", out, err)
+	}
+}
+```
+The code snippet above shows the usage of the Trust discounting operator. This specific example will result in the following output:
+```go
+Output: {0.08000000000000002 0 0.9199999999999999 0.5} <nil>
+``` 
 
 ### Trust Discounting for Multi-edge Path
 This implements the Trust Discounting Operator for Multi-edge Paths as defined in Subjective Logic.
 
 If $[A_1, ..., A_n]$ denotes the referral trust path and $[A_n, X]$ the functional trust, the Trust Discounting Operator for multi-edge paths is defined as:
 
-$$
+```math
 	\omega_{X}^{A_1}  :
 	\begin{cases}
 		b_{X}^{A_1}(x) & = P_{A_n}^{A_1}*b_{X}^{A_n}(x) \\
 		u_{X}^{A_1} & = 1 - P_{A_n}^{A_1}*\sum_{x \in X}b_{X}^{A_n}(x) \\
 		a_{X}^{A_1}(x) & = a_{X}^{A_n}(x)
 	\end{cases}       
-$$
+```
 and:
-$$
+```math
 	P_{A_n}^{A_1} =  \prod_{i=1}^{n-1} P_{A_{i+1}}^{A_i}     
-$$
+```
 
 #### API Reference
+TBD
 
 #### Problematic Inputs
+TBD
 
 #### Example
 TBD 
