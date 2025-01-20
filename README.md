@@ -190,7 +190,7 @@ Output: {0.8 0.2 0 0.5} <nil>
 
 ### Binomial Multiplication
 This implements the Binomial Multiplication Operator as defined in Subjective Logic:
-$$
+```math
 	\omega_{x \wedge y}  :
 	\begin{cases}
 		b_{x \wedge y} = b_x b_y + \frac{(1-a_x) a_y b_x u_y + a_x (1-a_y) b_y u_x}{1 - a_x a_y} \\
@@ -198,7 +198,7 @@ $$
 		u_{x \wedge y} = u_x u_y + \frac{(1-a_y) b_x u_y + (1-a_x) u_x b_y}{1 - a_x a_y} \\
 		a_{x \wedge y} = a_x a_y
 	\end{cases}       
-$$
+```
 
 #### API Reference
 
@@ -237,7 +237,7 @@ Output: {0.12000000000000002 0.8 0.08 0.25} <nil>
 ### Binomial Comultiplication
 This implements the Comultiplication Operator as defined in Subjective Logic:
 
-$$
+```math
 	\omega_{x \wedge y}  :
 	\begin{cases}
 		b_{x \wedge y} = b_x + b_y - b_x b_y \\
@@ -245,7 +245,7 @@ $$
 		u_{x \wedge y} = u_x u_y + \frac{a_y d_x u_y + a_x u_x d_y}{a_x + a_y - a_x a_y} \\
 		a_{x \wedge y} = a_x + a_y - a_x a_y
 	\end{cases}       
-$$
+```
 
 #### API Reference
 
@@ -286,7 +286,7 @@ Output: {0.52 0.16 0.32 0.75} <nil>
 
 
 NEEDS TO BE EDITED
-$$
+```math
 	\omega_{X}^{(A\&B)}  :
 	\begin{cases}
 		b_{X}^{(A\&B)} = \frac{b_{X}^{A}u_{X}^{B} + b_{X}^{B}u_{X}^{A} + b_{X}^{A}b_{X}^{B}}{1 - Con} \\
@@ -295,11 +295,11 @@ $$
 		a_{X}^{(A\&B)} = \frac{a_{X}^{A}(1-u_{X}^{A})+a_{X}^{B}(1-u_{X}^{B})}{2-u_{X}^{A}-u_{X}^{B}} & \text{for} \hspace{2mm} u_{X}^{A} + u_{X}^{B} < 2 \\
 		a_{X}^{(A\&B)} = \frac{a_{X}^{A}+a_{X}^{B}}{2} & \text{for} \hspace{2mm}u_{X}^{A} = u_{X}^{B} = 1
 	\end{cases}       
-$$
+```
 
-$$
+```math
 	Con = b_{X}^{A}d_{X}^{B} + d_{X}^{A}b_{X}^{B}
-$$
+```
 
 #### API Reference
 
@@ -339,7 +339,7 @@ Output: {0.2941176470588236 0.7058823529411764 0 0.5} <nil>
 This implements the Aleatory Cumulative Fusion Operator as defined in Subjective Logic:
 
 Case I: For $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
-$$
+```math
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
 		b_{X}^{(A\diamond B)}(x) = \frac{b_{X}^{A}(x)u_{X}^{B} + b_{X}^{B}(x)u_{X}^{A}}{u_{X}^{A} + u_{X}^{B} - u_{X}^{A} u_{X}^{B}} \\
@@ -347,21 +347,22 @@ $$
 		a_{X}^{(A\diamond B)}(x) = \frac{a_{X}^{A}(x)u_{X}^{B} + a_{X}^{B}(x)u_{X}^{A} - (a_{X}^{A}(x) +  a_{X}^{B}(x))u_{X}^{B}u_{X}^{A}}{u_{X}^{A} + u_{X}^{B} - 2 u_{X}^{A} u_{X}^{B}} & \text{if} \hspace{2mm} u_{X}^{A} \neq 1 \vee u_{X}^{B} \neq 1 \\
 		a_{X}^{(A\diamond B)}(x) = \frac{a_{X}^{A}(x)+a_{X}^{B}(x)}{2} & \text{if} \hspace{2mm}u_{X}^{A} = u_{X}^{B} = 1
 	\end{cases}       
-$$
+```
 
 
 Case II: For $u_{X}^{A} = u_{X}^{B} = 0$:
-$$
+```math
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
 		b_{X}^{(A\diamond B)}(x) = \gamma_{X}^{A} b_{X}^{A}(x) + \gamma_{X}^{B} b_{X}^{B}(x) \\
 		u_{X}^{(A\diamond B)} = 0 \\
 		a_{X}^{(A\diamond B)}(x) = \gamma_{X}^{A} a_{X}^{A}(x) + \gamma_{X}^{B} a_{X}^{B}(x)
 	\end{cases}       
-$$
-$$
+```
+
+```math
 	 \text{where} \hspace{2mm} \gamma_{X}^{A} = \gamma_{X}^{B} = 0.5     
-$$
+```
 
 #### API Reference
 
@@ -400,28 +401,29 @@ Output: {0.2 0.8 0 0.5} <nil>
 This implements the Averaging Fusion Operator as defined in Subjective Logic:
 
 Case I: For $u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0$:
-$$
+```math
 	\omega_{X}^{(A\underline{\diamond} B)}  :
 	\begin{cases}
 		b_{X}^{(A\underline{\diamond} B)}(x) = \frac{b_{X}^{A}(x)u_{X}^{B} + b_{X}^{B}(x)u_{X}^{A}}{u_{X}^{A} + u_{X}^{B}} \\
 		u_{X}^{(A\underline{\diamond} B)} = \frac{2 u_{X}^{A}u_{X}^{B}}{u_{X}^{A} + u_{X}^{B}} \\
 		a_{X}^{(A\underline{\diamond} B)}(x) = \frac{a_{X}^{A}(x)+a_{X}^{B}(x)}{2}
 	\end{cases}       
-$$
+```
 
 
 Case II: For $u_{X}^{A} = u_{X}^{B} = 0$:
-$$
+```math
 	\omega_{X}^{(A\underline{\diamond} B)}  :
 	\begin{cases}
 		b_{X}^{(A\underline{\diamond} B)}(x) = \gamma_{X}^{A} b_{X}^{A}(x) + \gamma_{X}^{B} b_{X}^{B}(x) \\
 		u_{X}^{(A\underline{\diamond} B)} = 0 \\
 		a_{X}^{(A\underline{\diamond} B)}(x) = \gamma_{X}^{A} a_{X}^{A}(x) + \gamma_{X}^{B} a_{X}^{B}(x)
 	\end{cases}       
-$$
-$$
+```
+
+```math
 	\text{where} \hspace{2mm} \gamma_{X}^{A} = \gamma_{X}^{B} = 0.5     
-$$
+```
 
 #### API Reference
 
@@ -462,39 +464,40 @@ Output: {0.2 0.8 0 0.5} <nil>
 This implements the Weighted Fusion Operator as defined in Subjective Logic:
 
 Case I: For $(u_{X}^{A} \neq 0 \vee u_{X}^{B} \neq 0) \wedge (u_{X}^{A} \neq 1 \vee u_{X}^{B} \neq 1)$:
-$$
+```math
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
 		b_{X}^{(A\diamond B)}(x) = \frac{b_{X}^{A}(x)(1-u_{X}^{A})u_{X}^{B} + b_{X}^{B}(x)(1-u_{X}^{B})u_{X}^{A}}{u_{X}^{A} + u_{X}^{B} - 2u_{X}^{A} u_{X}^{B}} \\
 		u_{X}^{(A\diamond B)} = \frac{(2 - u_{X}^{A} - u_{X}^{B})u_{X}^{A}u_{X}^{B}}{u_{X}^{A} + u_{X}^{B} - 2u_{X}^{A} u_{X}^{B}} \\
 		a_{X}^{(A\diamond B)}(x) = \frac{a_{X}^{A}(x)(1-u_{X}^{A}) + a_{X}^{B}(x)(1-u_{X}^{B})}{2 - u_{X}^{A} - u_{X}^{B}}
 	\end{cases}       
-$$
+```
 
 
 Case II: For $u_{X}^{A} = u_{X}^{B} = 0$:
-$$
+```math
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
 		b_{X}^{(A\diamond B)}(x) = \gamma_{X}^{A} b_{X}^{A}(x) + \gamma_{X}^{B} b_{X}^{B}(x) \\
 		u_{X}^{(A\diamond B)} = 0 \\
 		a_{X}^{(A\diamond B)}(x) = \gamma_{X}^{A} a_{X}^{A}(x) + \gamma_{X}^{B} a_{X}^{B}(x)
 	\end{cases}       
-$$
-$$
+```
+
+```math
 	\text{where} \hspace{2mm} \gamma_{X}^{A} = \gamma_{X}^{B} = 0.5     
-$$
+```
 
 
 Case III: $u_{X}^{A} = u_{X}^{B} = 1$:
-$$
+```math
 	\omega_{X}^{(A\diamond B)}  :
 	\begin{cases}
 		b_{X}^{(A\diamond B)}(x) = 0 \\
 		u_{X}^{(A\diamond B)} = 1 \\
 		a_{X}^{(A\diamond B)}(x) = \frac{a_{X}^{A}(x)+a_{X}^{B}(x)}{2}
 	\end{cases}       
-$$
+```
 
 #### API Reference
 ```go
@@ -532,14 +535,14 @@ Output: {0.2 0.8 0 0.5} <nil>
 ### Trust Discounting
 This implements the Trust Discounting Operator as defined in Subjective Logic:
 
-$$
+```math
 	\omega_{X}^{[A;B]}  :
 	\begin{cases}
 		b_{X}^{[A;B]}(x) & = P_B^{A}*b_{X}^B(x) \\
 		u_{X}^{[A;B]} & = 1 - P_B^{A}*\sum_{x \in X}b_{X}^B(x) \\
 		a_{X}^{[A;B]}(x) & = a_{X}^B(x)
 	\end{cases}       
-$$
+```
 
 #### API Reference
 
