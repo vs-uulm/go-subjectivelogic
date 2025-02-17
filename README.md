@@ -17,7 +17,7 @@ This Go library implements a number of Subjective Logic operators. Subjective Lo
 	* [Averaging Fusion](#averaging-fusion)
 	* [Weighted Fusion](#weighted-fusion)
 	* [Trust Discounting](#trust-discounting)
-	* [Multi-Edge Trust Discounting](#trust-discounting-for-multi-edge-path
+	* [Multi-Edge Trust Discounting](#trust-discounting-for-multi-edge-path)
 	* [Opposite-Belief Trust Discounting](#opposite-belief-trust-discounting)
 - [Contributing](#contributing)
 - [License](#license)
