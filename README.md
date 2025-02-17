@@ -17,7 +17,8 @@ This Go library implements a number of Subjective Logic operators. Subjective Lo
 	* [Averaging Fusion](#averaging-fusion)
 	* [Weighted Fusion](#weighted-fusion)
 	* [Trust Discounting](#trust-discounting)
-	* [Consecutive Trust Discounting](#consecutive-trust-discounting)
+	* [Multi-Edge Trust Discounting](#trust-discounting-for-multi-edge-path
+	* [Opposite-Belief Trust Discounting](#opposite-belief-trust-discounting)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -598,6 +599,49 @@ TBD
 
 #### Example
 TBD 
+
+
+### Opposite-Belief Trust Discounting
+This implements the Opposite-Belief Trust Discounting Operator as defined in Subjective Logic:
+
+```math
+	\omega_{X}^{[A;B]}  :
+	\begin{cases}
+		b_X^{[A;B]} & = b^A_Bb^B_X + d^A_Bd^B_X  \\
+		d_X^{[A;B]} & = b^A_Bd^B_X + d^A_Bb^B_X \\
+		u_X^{[A;B]} & = u^A_B  + (b^A_B + d^A_B)u^B_X \\
+		a_X^{[A;B]} & = a^B_X \\
+	\end{cases}       
+```
+
+#### API Reference
+```go
+func TrustDiscountingOB(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
+```
+#### Problematic Inputs
+There are no problematic inputs for this operator, as long as they are valid opinions.
+
+#### Example
+```go
+func main() {
+
+	opinion1, _ := subjectivelogic.NewOpinion(0.2, 0.8, 0, 0.5) 
+	opinion2, _ := subjectivelogic.NewOpinion(1, 0, 0, 0.5)
+
+	out, err := subjectivelogic.TrustDiscountingOB(&opinion1, &opinion2)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Output:", out, err)
+	}
+}
+```
+The code snippet above shows the usage of the Trust discounting operator. This specific example will result in the following output:
+```go
+Output: {0.2 0.8 0 0.5} <nil>
+``` 
+
 
 ## Contributing
 Contributions are very welcome! Please let us know if you find an issue and have ideas for improvement. Alternately, open an issue or submit a pull request on GitHub. 
