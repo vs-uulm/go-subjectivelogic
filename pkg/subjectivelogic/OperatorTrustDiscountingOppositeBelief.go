@@ -18,7 +18,7 @@ import (
 	"errors"
 )
 
-func TrustDiscountingOB(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
+func TrustDiscountingOppositeBelief(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	// Checking if the opinion pointers are empty
 	if opinion1 == nil || opinion2 == nil {
 		return Opinion{}, errors.New("OpTrustDisc: Input cannot be nil")
@@ -39,12 +39,10 @@ func TrustDiscountingOB(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	u2 := opinion2.uncertainty
 	a2 := opinion2.baseRate
 
-	b := b1 * b2 + d1 * d2
-	d := b1 * d2 + d1 * b2
-	u := u1 + (b1 + d1)*u2
+	b := b1*b2 + d1*d2
+	d := b1*d2 + d1*b2
+	u := u1 + (b1+d1)*u2
 	a := a2
 
 	return NewOpinion(b, d, u, a)
 }
-
-

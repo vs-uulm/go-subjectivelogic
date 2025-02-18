@@ -70,29 +70,27 @@ func TestTrustDiscountingOB(t *testing.T) {
 			args{&Opinion{0.3, 0.7, 0, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{0.3, 0.7, 0, 0.5},
 			false,
-		},		
+		},
 		{"TestTrustDiscountingOB",
 			args{&Opinion{0.2, 0.4, 0.4, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{0.2, 0.4, 0.4, 0.5},
 			false,
-		},								
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := TrustDiscountingOB(tt.args.opinion1, tt.args.opinion2)
+			got, err := TrustDiscountingOppositeBelief(tt.args.opinion1, tt.args.opinion2)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("TrustDiscountingOB() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("TrustDiscountingOppositeBelief() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !got.Compare(tt.want) {
-				t.Errorf("TrustDiscountingOB() got = %v, want %v", got, tt.want)
+				t.Errorf("TrustDiscountingOppositeBelief() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-
-
 func BenchmarkTrustDiscountingOB(b *testing.B) {
-	bmBinarySlFunc(TrustDiscountingOB, b)
+	bmBinarySlFunc(TrustDiscountingOppositeBelief, b)
 }
