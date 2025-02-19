@@ -18,7 +18,7 @@ import (
 	"testing"
 )
 
-func TestTrustDiscountingOB(t *testing.T) {
+func TestTrustDiscountingOppositeBelief(t *testing.T) {
 	type args struct {
 		opinion1 *Opinion
 		opinion2 *Opinion
@@ -30,48 +30,48 @@ func TestTrustDiscountingOB(t *testing.T) {
 		wantErr bool
 	}{
 		//nil input
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{nil, nil},
 			Opinion{},
 			true},
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{nil, &Opinion{1, 0, 0, 0.5}},
 			Opinion{},
 			true,
 		},
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{&Opinion{1, 0, 0, 0.5}, nil},
 			Opinion{},
 			true,
 		},
 
 		//general testing
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{&Opinion{0, 0, 1, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{0, 0, 1, 0.5},
 			false,
 		},
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{&Opinion{1, 0, 0, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{1, 0, 0, 0.5},
 			false,
 		},
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{&Opinion{0, 1, 0, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{0, 1, 0, 0.5},
 			false,
 		},
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{&Opinion{0, 0.75, 0.25, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{0, 0.75, 0.25, 0.5},
 			false,
 		},
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{&Opinion{0.3, 0.7, 0, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{0.3, 0.7, 0, 0.5},
 			false,
 		},		
-		{"TestTrustDiscountingOB",
+		{"TestTrustDiscountingOppositeBelief",
 			args{&Opinion{0.2, 0.4, 0.4, 0.5}, &Opinion{1, 0, 0, 0.5}},
 			Opinion{0.2, 0.4, 0.4, 0.5},
 			false,
@@ -79,7 +79,7 @@ func TestTrustDiscountingOB(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := TrustDiscountingOB(tt.args.opinion1, tt.args.opinion2)
+			got, err := TrustDiscountingOppositeBelief(tt.args.opinion1, tt.args.opinion2)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("TrustDiscountingOB() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -93,6 +93,6 @@ func TestTrustDiscountingOB(t *testing.T) {
 
 
 
-func BenchmarkTrustDiscountingOB(b *testing.B) {
-	bmBinarySlFunc(TrustDiscountingOB, b)
+func BenchmarkTrustDiscountingOppositeBelief(b *testing.B) {
+	bmBinarySlFunc(TrustDiscountingOppositeBelief, b)
 }
