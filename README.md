@@ -616,7 +616,7 @@ This implements the Opposite-Belief Trust Discounting Operator as defined in Sub
 
 #### API Reference
 ```go
-func TrustDiscountingOB(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
+func TrustDiscountingOppositeBelief(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error)
 ```
 #### Problematic Inputs
 There are no problematic inputs for this operator, as long as they are valid opinions.
@@ -628,7 +628,7 @@ func main() {
 	opinion1, _ := subjectivelogic.NewOpinion(0.2, 0.8, 0, 0.5) 
 	opinion2, _ := subjectivelogic.NewOpinion(1, 0, 0, 0.5)
 
-	out, err := subjectivelogic.TrustDiscountingOB(&opinion1, &opinion2)
+	out, err := subjectivelogic.TrustDiscountingOppositeBelief(&opinion1, &opinion2)
 
 	if err != nil {
 		fmt.Println("Error:", err)
