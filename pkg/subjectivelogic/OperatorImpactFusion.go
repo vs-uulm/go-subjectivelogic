@@ -20,7 +20,9 @@ import (
 )
 
 // This is an experimental operator and is only for testing purposes.
-func ImpactFusion(opinion1 *Opinion, opinion2 *Opinion, impactFactor float64) (Opinion, error) {
+// func ImpactFusion(opinion1 *Opinion, opinion2 *Opinion, impactFactor float64) (Opinion, error) {
+func ImpactFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
+
 	// Checking if the opinion pointers are empty
 	if opinion1 == nil || opinion2 == nil {
 		return Opinion{}, errors.New("ImpactFusion: Input cannot be nil")
@@ -31,6 +33,8 @@ func ImpactFusion(opinion1 *Opinion, opinion2 *Opinion, impactFactor float64) (O
 	if *opinion1 == nullChecker || *opinion2 == nullChecker {
 		return Opinion{}, errors.New("ImpactFusion: Inputs cannot be null opinions")
 	}
+
+	impactFactor := 0.8
 
 	b1 := opinion1.belief
 	d1 := opinion1.disbelief
