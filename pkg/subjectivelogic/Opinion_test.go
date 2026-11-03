@@ -386,3 +386,78 @@ func bmBinarySlFunc(f func(*Opinion, *Opinion) (Opinion, error), b *testing.B) {
 	}
 
 }
+
+func TestNewResultOpinion(t *testing.T) {
+	tests := []struct {
+		name       string
+		b, d, u, a float64
+		want       Opinion
+		wantErr    bool
+	}{
+		{"valid result is unchanged", 0.6, 0.3, 0.1, 0.5, Opinion{0.6, 0.3, 0.1, 0.5}, false},
+		{"belief rounded above 1", 1.0000000000000002, 0, 0, 0.5, Opinion{1, 0, 0, 0.5}, false},
+		{"disbelief rounded below 0", 0.7, -1e-17, 0.3, 0.5, Opinion{0.7, 0, 0.3, 0.5}, false},
+		{"uncertainty rounded above 1", 0, 0, 1.0000000000000002, 0.5, Opinion{0, 0, 1, 0.5}, false},
+		{"base rate rounded above 1", 0.2, 0.3, 0.5, 1.0000000000000002, Opinion{0.2, 0.3, 0.5, 1}, false},
+		// a deviation of the sum by 1e-10 exceeds the tolerance of NewOpinion, but not ResultTolerance
+		{"sum rounded above 1", 0.1, 0.34, 0.56 + 1e-10, 0.5,
+			Opinion{0.1 / (1 + 1e-10), 0.34 / (1 + 1e-10), (0.56 + 1e-10) / (1 + 1e-10), 0.5}, false},
+		{"belief clearly above 1", 1.1, 0, 0, 0.5, Opinion{}, true},
+		{"disbelief clearly below 0", 0.7, -0.1, 0.4, 0.5, Opinion{}, true},
+		{"sum clearly above 1", 0.5, 0.3, 0.3, 0.5, Opinion{}, true},
+		{"base rate clearly above 1", 0.2, 0.3, 0.5, 1.1, Opinion{}, true},
+		{"NaN", math.NaN(), 0, 1, 0.5, Opinion{}, true},
+		{"infinity", 0, math.Inf(1), 0, 0.5, Opinion{}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := newResultOpinion(tt.b, tt.d, tt.u, tt.a)
+			if (err != nil) != tt.wantErr {
+				t.Fatalf("newResultOpinion() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if !got.Compare(tt.want) {
+				t.Errorf("newResultOpinion() = %v, want %v", got, tt.want)
+			}
+			if !tt.wantErr && !checkInput(got.belief, got.disbelief, got.uncertainty, got.baseRate) {
+				t.Errorf("newResultOpinion() = %v is not a valid opinion", got)
+			}
+		})
+	}
+}
+
+// TestOperatorRoundingResults checks inputs whose exact results are valid opinions, but whose computed results deviate
+// from a valid opinion by a rounding error, which the operators used to reject.
+func TestOperatorRoundingResults(t *testing.T) {
+	type binaryOperator func(*Opinion, *Opinion) (Opinion, error)
+	tests := []struct {
+		name     string
+		operator binaryOperator
+		x, y     Opinion
+		want     Opinion
+	}{
+		// u = 0.34 + 0.56 + 0.1 evaluates to 1.0000000000000002
+		{"TrustDiscountingUncertaintyFavouring with vacuous advice", TrustDiscountingUncertaintyFavouring,
+			Opinion{0.1, 0.34, 0.56, 0.5}, Opinion{0, 0, 1, 0.5}, Opinion{0, 0, 1, 0.5}},
+		// b evaluates slightly above 1
+		{"ConstraintFusion with almost full conflict", ConstraintFusion,
+			Opinion{1, 0, 0, 0.5}, Opinion{1e-9, 1 - 1e-9, 0, 0.5}, Opinion{1, 0, 0, 0.5}},
+		// the fused base rate evaluates slightly above 1
+		{"CumulativeFusion with base rate 1", CumulativeFusion,
+			Opinion{0.0881487915733718, 0.07485424065770124, 0.836996967768927, 1}, Opinion{0, 0, 1, 0.4},
+			Opinion{0.0881487915733718, 0.07485424065770124, 0.836996967768927, 1}},
+		{"WeightedFusion with base rate 1", WeightedFusion,
+			Opinion{0.17373913213225267, 0.059393056184360304, 0.766867811683387, 1}, Opinion{0, 0, 1, 1},
+			Opinion{0.17373913213225267, 0.059393056184360304, 0.766867811683387, 1}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := tt.operator(&tt.x, &tt.y)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if !got.Compare(tt.want) {
+				t.Errorf("got %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

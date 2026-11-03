@@ -43,13 +43,18 @@ func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	har := b1*u2 + b2*u1 + b1*b2
 	con := b1*d2 + b2*d1
 
-	if con == 1 {
+	// 1 - con is computed as the sum of the remaining terms of (b1+d1+u1)*(b2+d2+u2) = 1, since subtracting a con close
+	// to 1 from 1 loses most significant digits
+	disHar := d1*u2 + d2*u1 + d1*d2
+	nonConflicting := har + disHar + u1*u2
+
+	if con == 1 || nonConflicting == 0 {
 		return Opinion{}, errors.New("ConstraintFusion: mathematically possible only if input opinions are not conflicting and do not result in Con = 1")
 	}
 
-	b := har / (1 - con)
-	u := u1 * u2 / (1 - con)
-	d := 1 - b - u
+	b := har / nonConflicting
+	u := u1 * u2 / nonConflicting
+	d := disHar / nonConflicting
 
 	a := -1.0
 	if u1+u2 < 2 {
@@ -58,5 +63,5 @@ func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 		a = (a1 + a2) / 2
 	}
 
-	return NewOpinion(b, d, u, a)
+	return newResultOpinion(b, d, u, a)
 }

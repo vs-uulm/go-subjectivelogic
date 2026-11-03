@@ -65,5 +65,5 @@ func CumulativeFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 
 	d = math.Max(0, 1-b-u)
 
-	return NewOpinion(b, d, u, a)
+	return newResultOpinion(b, d, u, a)
 }

@@ -41,5 +41,5 @@ func TrustDiscountingUncertaintyFavouring(opinion1 *Opinion, opinion2 *Opinion) 
 	u := d1 + u1 + b1*u2
 	a := a2
 	
-	return NewOpinion(b, d, u, a)
+	return newResultOpinion(b, d, u, a)
 }

@@ -44,7 +44,7 @@ func TrustDiscounting(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	u := 1 - b - d
 	a := a2
 
-	return NewOpinion(b, d, u, a)
+	return newResultOpinion(b, d, u, a)
 }
 
 func MultiEdgeTrustDisc(opinions []Opinion) (Opinion, error) {
@@ -68,5 +68,5 @@ func MultiEdgeTrustDisc(opinions []Opinion) (Opinion, error) {
 	u := 1 - b - d
 	a := nth_Opinion.baseRate
 
-	return NewOpinion(b, d, u, a)
+	return newResultOpinion(b, d, u, a)
 }

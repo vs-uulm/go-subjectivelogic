@@ -50,5 +50,5 @@ func Comultiplication(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	u := u1*u2 + (a2*d1*u2+a1*u1*d2)/(a1+a2-a1*a2)
 	a := a1 + a2 - a1*a2
 
-	return NewOpinion(b, d, u, a)
+	return newResultOpinion(b, d, u, a)
 }

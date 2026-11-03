@@ -55,15 +55,15 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 		a = a1 + a2
 	}
 
-	o, err := NewOpinion(b, d, u, a)
+	o, err := newResultOpinion(b, d, u, a)
 
 	if err != nil {
 		return Opinion{}, errors.New("Addition: Check the validity of your input values")
 	}
 
-	if b > 1 {
+	if o.belief > 1 {
 		return Opinion{}, errors.New("Addition: Sum of beliefs cannot exceed 1")
-	} else if a > 1 {
+	} else if o.baseRate > 1 {
 		return Opinion{}, errors.New("Addition: Sum of base rates cannot exceed 1")
 	}
 

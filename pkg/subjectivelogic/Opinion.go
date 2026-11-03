@@ -173,6 +173,35 @@ func checkInput(b, d, u, a float64) bool {
 	return false
 }
 
+/*
+ResultTolerance defines the maximum rounding error an operator result may have. Results whose values lie at most ResultTolerance
+outside of [0, 1], or whose belief, disbelief and uncertainty sum to 1 with at most this deviation, are corrected by newResultOpinion.
+*/
+const ResultTolerance float64 = 0.000000001
+
+/*
+newResultOpinion is used by the operators to create their result Opinion. Floating-point rounding can leave a value of an
+operator result slightly outside of [0, 1] (e.g. 1.0000000000000002 or -1e-17), which NewOpinion would reject. If all values
+are within ResultTolerance of a valid Opinion, they are clamped into [0, 1] and belief, disbelief and uncertainty are
+renormalised to sum to 1. Larger deviations are not caused by rounding, so an error is returned for them.
+*/
+func newResultOpinion(belief, disbelief, uncertainty, baseRate float64) (Opinion, error) {
+	inRange := func(v float64) bool {
+		return -ResultTolerance <= v && v <= 1+ResultTolerance // also false for NaN
+	}
+	sum := belief + disbelief + uncertainty
+	if !inRange(belief) || !inRange(disbelief) || !inRange(uncertainty) || !inRange(baseRate) ||
+		math.Abs(1-sum) > ResultTolerance {
+		return Opinion{}, errors.New("NewOpinion: Invalid Input")
+	}
+	clamp := func(v float64) float64 {
+		return math.Max(0, math.Min(1, v))
+	}
+	belief, disbelief, uncertainty, baseRate = clamp(belief), clamp(disbelief), clamp(uncertainty), clamp(baseRate)
+	sum = belief + disbelief + uncertainty
+	return NewOpinion(belief/sum, disbelief/sum, uncertainty/sum, baseRate)
+}
+
 func (opinion *Opinion) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Belief      float64 `json:"belief"`
