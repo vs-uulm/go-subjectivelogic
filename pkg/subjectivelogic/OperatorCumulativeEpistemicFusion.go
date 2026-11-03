@@ -19,6 +19,12 @@ import (
 	"math"
 )
 
+/*
+CumulativeEpistemicFusion fuses two opinions with Epistemic Cumulative Belief Fusion as defined by Jøsang, Subjective
+Logic, Springer 2016, Definition 12.6: the opinions are fused with CumulativeFusion, and the result is
+uncertainty-maximised, i.e. as much belief or disbelief as possible is converted into uncertainty while the projected
+probability is preserved.
+*/
 func CumulativeEpistemicFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	// CumulativeFusion already checks for nil pointers and null opinions, so
 	// those checks are inherited by delegating to it here.
@@ -26,13 +32,17 @@ func CumulativeEpistemicFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, e
 	if err != nil {
 		return Opinion{}, err
 	}
+	return uncertaintyMaximised(omega3, "CumulativeEpistemicFusion")
+}
 
-	p := omega3.ProjectedProbability()
-	a := omega3.BaseRate()
+// uncertaintyMaximised returns the uncertainty-maximised opinion with the same projected probability and base rate
+func uncertaintyMaximised(opinion Opinion, operator string) (Opinion, error) {
+	p := opinion.ProjectedProbability()
+	a := opinion.BaseRate()
 
 	// A base rate of exactly 0 or 1 makes uMax's division undefined.
 	if a == 0 || a == 1 {
-		return Opinion{}, errors.New("CumulativeEpistemicFusion: base rate must not be equal to 0 or 1.")
+		return Opinion{}, errors.New(operator + ": base rate must not be equal to 0 or 1.")
 	}
 
 	uMax := math.Min(p/a, (1-p)/(1-a))
