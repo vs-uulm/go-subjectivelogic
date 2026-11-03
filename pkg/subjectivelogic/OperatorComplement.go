@@ -23,5 +23,5 @@ func Complement(opinion *Opinion) (Opinion, error) {
 		return Opinion{}, errors.New("Complement: Input cannot be nil")
 	}
 
-	return newResultOpinion(opinion.disbelief, opinion.belief, opinion.uncertainty, 1-opinion.baseRate)
+	return NewOpinionWithTolerance(opinion.disbelief, opinion.belief, opinion.uncertainty, 1-opinion.baseRate)
 }

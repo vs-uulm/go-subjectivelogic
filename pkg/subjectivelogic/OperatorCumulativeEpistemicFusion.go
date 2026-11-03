@@ -39,5 +39,5 @@ func CumulativeEpistemicFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, e
 	bMax := p - a*uMax
 	dMax := math.Max(0, 1-bMax-uMax)
 
-	return newResultOpinion(bMax, dMax, uMax, a)
+	return NewOpinionWithTolerance(bMax, dMax, uMax, a)
 }

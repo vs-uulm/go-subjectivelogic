@@ -44,5 +44,5 @@ func TrustDiscountingOppositeBelief(opinion1 *Opinion, opinion2 *Opinion) (Opini
 	u := u1 + (b1+d1)*u2
 	a := a2
 
-	return newResultOpinion(b, d, u, a)
+	return NewOpinionWithTolerance(b, d, u, a)
 }

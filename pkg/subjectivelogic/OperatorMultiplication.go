@@ -50,5 +50,5 @@ func Multiplication(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 	u := u1*u2 + ((1-a2)*b1*u2+(1-a1)*u1*b2)/(1-a1*a2)
 	a := a1 * a2
 
-	return newResultOpinion(b, d, u, a)
+	return NewOpinionWithTolerance(b, d, u, a)
 }

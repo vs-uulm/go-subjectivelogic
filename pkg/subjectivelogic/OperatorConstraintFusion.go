@@ -63,5 +63,5 @@ func ConstraintFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 		a = (a1 + a2) / 2
 	}
 
-	return newResultOpinion(b, d, u, a)
+	return NewOpinionWithTolerance(b, d, u, a)
 }

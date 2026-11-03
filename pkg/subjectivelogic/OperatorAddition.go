@@ -55,7 +55,7 @@ func Addition(opinion1 *Opinion, opinion2 *Opinion) (Opinion, error) {
 		a = a1 + a2
 	}
 
-	o, err := newResultOpinion(b, d, u, a)
+	o, err := NewOpinionWithTolerance(b, d, u, a)
 
 	// covers a sum of beliefs or base rates above 1, as the result opinion is invalid then
 	if err != nil {

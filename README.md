@@ -60,8 +60,9 @@ The following methods have been implemented for the opinion:
 
 The `NewOpinion()` method takes in four `float64` values and outputs an `Opinion` as well as an Error. In case a valid `Opinion` can be formed, it will be returned and the error will be `nil`. If the input values violate the requirements for a valid `Opinion`, the `Opinion` would be initialized with zeroes and an error will be returned.
 For a valid `Opinion`, each input value $i$ must fulfill $0 \leq i \leq 1$ and the following statement $b + d + u = 1$ must hold.
-The operators correct floating-point rounding errors in their results: values that lie at most `ResultTolerance` ($10^{-9}$) outside of $[0, 1]$ are clamped, and $b$, $d$, $u$ are renormalised to sum to $1$.
+For values computed with floating-point arithmetic, `NewOpinionWithTolerance()` corrects rounding errors: values that lie at most `ResultTolerance` ($10^{-9}$) outside of $[0, 1]$ are clamped, and $b$, $d$, $u$ are renormalised to sum to $1$.
 Larger deviations still result in an error.
+All operators create their results with `NewOpinionWithTolerance()`.
 
 ```go
 opinion, err := subjectivelogic.NewOpinion(.5, .25, .25, .5)

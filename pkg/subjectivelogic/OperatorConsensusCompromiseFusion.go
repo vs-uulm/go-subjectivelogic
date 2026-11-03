@@ -86,5 +86,5 @@ func ConsensusCompromiseFusion(opinion1 *Opinion, opinion2 *Opinion) (Opinion, e
 	d := math.Max(0, math.Min(1, dCons+eta*dComp))
 	u := math.Max(0, 1-b-d)
 
-	return newResultOpinion(b, d, u, a)
+	return NewOpinionWithTolerance(b, d, u, a)
 }

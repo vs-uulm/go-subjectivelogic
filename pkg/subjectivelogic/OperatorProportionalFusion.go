@@ -53,5 +53,5 @@ func ProportionalFusion(opinion1 *Opinion, opinion2 *Opinion, proportion1, propo
 	u := proportion1*u1 + proportion2*u2
 	a := proportion1*a1 + proportion2*a2
 
-	return newResultOpinion(b, d, u, a)
+	return NewOpinionWithTolerance(b, d, u, a)
 }

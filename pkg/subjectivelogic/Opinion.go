@@ -174,18 +174,19 @@ func checkInput(b, d, u, a float64) bool {
 }
 
 /*
-ResultTolerance defines the maximum rounding error an operator result may have. Results whose values lie at most ResultTolerance
-outside of [0, 1], or whose belief, disbelief and uncertainty sum to 1 with at most this deviation, are corrected by newResultOpinion.
+ResultTolerance defines the maximum rounding error that NewOpinionWithTolerance corrects. It is used by all operators for
+their results.
 */
 const ResultTolerance float64 = 0.000000001
 
 /*
-newResultOpinion is used by the operators to create their result Opinion. Floating-point rounding can leave a value of an
-operator result slightly outside of [0, 1] (e.g. 1.0000000000000002 or -1e-17), which NewOpinion would reject. If all values
-are within ResultTolerance of a valid Opinion, they are clamped into [0, 1] and belief, disbelief and uncertainty are
-renormalised to sum to 1. Larger deviations are not caused by rounding, so an error is returned for them.
+NewOpinionWithTolerance creates an Opinion from computed values. Floating-point rounding can leave a computed value slightly
+outside of [0, 1] (e.g. 1.0000000000000002 or -1e-17), which NewOpinion would reject. If all values lie at most
+ResultTolerance outside of [0, 1] and belief, disbelief and uncertainty sum to 1 with at most this deviation, they are
+clamped into [0, 1] and belief, disbelief and uncertainty are renormalised to sum to 1. Larger deviations are not caused
+by rounding, so an error is returned for them, as by NewOpinion. All operators create their result with this function.
 */
-func newResultOpinion(belief, disbelief, uncertainty, baseRate float64) (Opinion, error) {
+func NewOpinionWithTolerance(belief, disbelief, uncertainty, baseRate float64) (Opinion, error) {
 	inRange := func(v float64) bool {
 		return -ResultTolerance <= v && v <= 1+ResultTolerance // also false for NaN
 	}

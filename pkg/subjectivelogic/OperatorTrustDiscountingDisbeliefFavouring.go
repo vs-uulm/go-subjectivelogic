@@ -61,5 +61,5 @@ func TrustDiscountingDisbeliefFavouring(opinion1 *Opinion, opinion2 *Opinion) (O
 	}
 
 
-	return newResultOpinion(b, d, u, a)
+	return NewOpinionWithTolerance(b, d, u, a)
 }

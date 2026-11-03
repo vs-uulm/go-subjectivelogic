@@ -387,7 +387,7 @@ func bmBinarySlFunc(f func(*Opinion, *Opinion) (Opinion, error), b *testing.B) {
 
 }
 
-func TestNewResultOpinion(t *testing.T) {
+func TestNewOpinionWithTolerance(t *testing.T) {
 	tests := []struct {
 		name       string
 		b, d, u, a float64
@@ -411,15 +411,15 @@ func TestNewResultOpinion(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newResultOpinion(tt.b, tt.d, tt.u, tt.a)
+			got, err := NewOpinionWithTolerance(tt.b, tt.d, tt.u, tt.a)
 			if (err != nil) != tt.wantErr {
-				t.Fatalf("newResultOpinion() error = %v, wantErr %v", err, tt.wantErr)
+				t.Fatalf("NewOpinionWithTolerance() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !got.Compare(tt.want) {
-				t.Errorf("newResultOpinion() = %v, want %v", got, tt.want)
+				t.Errorf("NewOpinionWithTolerance() = %v, want %v", got, tt.want)
 			}
 			if !tt.wantErr && !checkInput(got.belief, got.disbelief, got.uncertainty, got.baseRate) {
-				t.Errorf("newResultOpinion() = %v is not a valid opinion", got)
+				t.Errorf("NewOpinionWithTolerance() = %v is not a valid opinion", got)
 			}
 		})
 	}
